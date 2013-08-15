@@ -13,7 +13,7 @@ class Smsglobal_SettingsPage
     {
         $title = Smsglobal::_('SMSGlobal');
         add_options_page($title, $title, 'manage_options',
-            'smsglobal', array($this, 'createAdminPage'));
+            'smsglobal-settings', array($this, 'createAdminPage'));
     }
 
     public function createAdminPage()
@@ -57,6 +57,9 @@ class Smsglobal_SettingsPage
         register_setting('smsglobal_option_group', 'array_key',
             array($this, 'saveApiKey'));
 
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveApiSecret'));
+
         add_settings_section(
             'setting_section_id',
             Smsglobal::_('API Key Settings'),
@@ -84,34 +87,36 @@ class Smsglobal_SettingsPage
     public function saveApiKey($input)
     {
         $value = $input['api_key'];
+
         if (get_option('smsglobal_api_key') === false) {
             add_option('smsglobal_api_key', $value);
         } else {
             update_option('smsglobal_api_key', $value);
         }
 
-        return $value;
+        return $input;
     }
 
     public function saveApiSecret($input)
     {
         $value = $input['api_secret'];
+
         if (get_option('smsglobal_api_secret') === false) {
             add_option('smsglobal_api_secret', $value);
         } else {
             update_option('smsglobal_api_secret', $value);
         }
 
-        return $value;
+        return $input;
     }
 
     public function getApiKeyHtml()
     {
-        ?><input type="text" id="smsglobal-api-key" name="array_key[api_key]" value="<?php echo get_option('smsglobal_api_key'); ?>" /><?php
+        ?><input type="text" id="smsglobal-api-key" name="array_key[api_key]" value="<?php echo get_option('smsglobal_api_key'); ?>"><?php
     }
 
     public function getApiSecretHtml()
     {
-        ?><input type="text" id="smsglobal-api-secret" name="array_key[api_secret]" value="<?php echo get_option('smsglobal_api_secret'); ?>" /><?php
+        ?><input type="text" id="smsglobal-api-secret" name="array_key[api_secret]" value="<?php echo get_option('smsglobal_api_secret'); ?>"><?php
     }
 }
