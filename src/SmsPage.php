@@ -179,13 +179,29 @@ class Smsglobal_SmsPage
     {
         if ('all' === $to) {
             // Send to every user
-            return get_users(array('fields' => 'mobile'));
+            global $wpdb;
+
+            // Couldn't find a way to do this with Wordpress's own features...
+            $query = 'SELECT meta_value FROM ' . $wpdb->usermeta . '
+            WHERE meta_key = "mobile"';
+
+            return $wpdb->get_col($query, 0);
         } elseif (ctype_digit($to)) {
             // It's a number
             return array($to);
         } else {
             // It's a role
-            return get_users(array('role' => $to, 'fields' => 'mobile'));
+            global $wpdb;
+
+            $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
+
+            $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
+            JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
+            m2.meta_key = "' . $prefix . 'capabilities" AND
+            CAST(m2.meta_value AS CHAR) LIKE "%\"administrator\"%")
+            WHERE m1.meta_key = "mobile"';
+
+            return $wpdb->get_col($query, 0);
         }
     }
 }
