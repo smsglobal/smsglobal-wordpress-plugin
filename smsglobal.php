@@ -13,6 +13,10 @@ $dir = dirname(__FILE__);
 require $dir . '/src/require.php';
 require $dir . '/vendor/autoload.php';
 
+// Set up
+register_activation_hook( __FILE__, 'smsglobal_install' );
+register_activation_hook( __FILE__, 'smsglobal_install_data' );
+
 $settingsPage = new Smsglobal_SettingsPage();
 load_plugin_textdomain('smsglobal', false, basename($dir) . '/languages');
 

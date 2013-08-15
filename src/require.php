@@ -2,6 +2,8 @@
 $smsglobal_files = array(
     'Smsglobal.php',
     'SettingsPage.php',
+    'Widget.php',
+    'Data.php'
 );
 
 // For PHP < 5.3, we can't use __DIR__

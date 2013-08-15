@@ -82,6 +82,7 @@ class Smsglobal_SettingsPage
             'smsglobal',
             'setting_section_id'
         );
+
     }
 
     public function saveApiKey($input)
