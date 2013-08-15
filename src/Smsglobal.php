@@ -1,8 +1,8 @@
 <?php
 class Smsglobal
 {
-    public static function _($string)
+    public static function _($string, $namespace = 'smsglobal')
     {
-        return __($string, 'smsglobal');
+        return __($string, $namespace);
     }
 }

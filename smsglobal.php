@@ -17,8 +17,9 @@ require $dir . '/vendor/autoload.php';
 register_activation_hook( __FILE__, 'smsglobal_install' );
 register_activation_hook( __FILE__, 'smsglobal_install_data' );
 
-$settingsPage = new Smsglobal_SettingsPage();
 load_plugin_textdomain('smsglobal', false, basename($dir) . '/languages');
+new Smsglobal_SettingsPage();
+new Smsglobal_SmsPage();
 
 // Clean up the global namespace
-unset($dir, $settingsPage);
+unset($dir);
