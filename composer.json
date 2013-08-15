@@ -1,0 +1,6 @@
+{
+    "require": {
+        "smsglobal/rest-api-client": "*"
+    },
+    "minimum-stability": "dev"
+}
