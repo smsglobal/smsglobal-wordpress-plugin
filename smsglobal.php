@@ -15,3 +15,6 @@ require $dir . '/vendor/autoload.php';
 
 $settingsPage = new Smsglobal_SettingsPage();
 load_plugin_textdomain('smsglobal', false, basename($dir) . '/languages');
+
+// Clean up the global namespace
+unset($dir, $settingsPage);
