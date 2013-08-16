@@ -36,3 +36,18 @@ function smsglobal_install_data() {
         )
     );
 }
+
+function smsglobal_insert_subscription($name, $mobile, $url, $email) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . "sms_subscription";
+
+    $rows_affected = $wpdb->insert( $table_name,
+        array(
+            'time' => current_time('mysql'),
+            'name' => $name,
+            'mobile' => $mobile,
+            'url' => $url,
+            'email' => $email,
+        )
+    );
+}
