@@ -1,0 +1,15 @@
+#!/bin/sh
+echo Fetching WordPress unit test framework
+if [ -d "wordpress-tests" ]; then
+    svn update wordpress-tests --quiet --non-interactive --trust-server-cert
+else
+    svn checkout http://unit-tests.svn.wordpress.org/trunk wordpress-tests --quiet --non-interactive --trust-server-cert
+fi
+
+if [ ! -d "wordpress-tests/wordpress/wp-content/plugins/smsglobal" ]; then
+    echo Adding plugin to unit test framework
+    ln -s `pwd` wordpress-tests/wordpress/wp-content/plugins/smsglobal
+fi
+
+cp wp-tests-config.php wordpress-tests/wp-tests-config.php
+cd wordpress-tests/wordpress/wp-content/plugins/smsglobal && phpunit
