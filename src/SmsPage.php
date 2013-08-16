@@ -7,6 +7,7 @@ class Smsglobal_SmsPage
     {
         if (is_admin()) {
             add_action('admin_menu', array($this, 'addMenu'));
+            add_action('admin_enqueue_scripts', array($this, 'addScript'));
         }
     }
 
@@ -14,6 +15,17 @@ class Smsglobal_SmsPage
     {
         $title = Smsglobal::_('SMS');
         add_menu_page($title, $title, 'manage_options', 'smsglobal', array($this, 'getPage'));
+    }
+
+    public function addScript($page)
+    {
+        if ($page === 'toplevel_page_smsglobal') {
+            $url = plugins_url(
+                'assets/admin.js',
+                dirname(__FILE__)
+            );
+            wp_enqueue_script('smsglobal-admin', $url, array('jquery'));
+        }
     }
 
     public function getPage()
