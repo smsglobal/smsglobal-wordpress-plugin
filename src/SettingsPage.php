@@ -259,7 +259,7 @@ class Smsglobal_SettingsPage
         $checked = (bool) get_option('smsglobal_enable_post_alerts');
         ?><label for="smsglobal-enable-post-alerts">
             <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-enable-post-alerts" name="array_key[enable_post_alerts]" value="1">
-            Enable
+            <?php echo Smsglobal::_('Enable') ?>
         </label><?php
     }
 
@@ -274,7 +274,7 @@ class Smsglobal_SettingsPage
         ?>
         <label for="smsglobal-shopp-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-shopp-enabled" name="array_key[shopp_enabled]" value="1">
-        Enable
+        <?php echo Smsglobal::_('Enable') ?>
         </label><?php
     }
 
