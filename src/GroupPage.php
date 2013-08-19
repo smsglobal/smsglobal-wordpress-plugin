@@ -76,10 +76,10 @@ class Smsglobal_GroupPage
                 </thead>
                 <?php foreach ($groups as $group): ?>
                 <tr valign="top">
-                    <td class="manage-column"><?php echo $group->ID; ?></td>
-                    <td class="manage-column"><?php echo $group->name; ?></td>
-                    <td class="manage-column"><?php echo $group->keyword; ?></td>
-                    <td class="manage-column"><?php echo $group->defaultOrigin; ?></td>
+                    <td class="manage-column"><?php echo $group->getId(); ?></td>
+                    <td class="manage-column"><?php echo $group->getName(); ?></td>
+                    <td class="manage-column"><?php echo $group->getKeyword(); ?></td>
+                    <td class="manage-column"><?php echo $group->getDefaultOrigin(); ?></td>
                 </tr>
                 <?php endforeach ?>
             </table>
