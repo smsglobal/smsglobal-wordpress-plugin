@@ -114,16 +114,8 @@ class Smsglobal_SmsPage
     protected function getToOptions()
     {
         if (null === $this->toOptions) {
-            global $wp_roles;
-            $this->toOptions = array(
-                'all' => 'All Users',
-                'number' => 'Number',
-            );
-
-            foreach ($wp_roles->roles as $id => $role) {
-                // Pluralize
-                $this->toOptions[$id] = $role['name'] . 's';
-            }
+            $this->toOptions = Smsglobal::getRoles();
+            $this->toOptions['number'] = Smsglobal::_('Number');
         }
 
         return $this->toOptions;
@@ -212,11 +204,13 @@ class Smsglobal_SmsPage
 
             $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
 
+            // TODO use role
             $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
             JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
             m2.meta_key = "' . $prefix . 'capabilities" AND
-            CAST(m2.meta_value AS CHAR) LIKE "%\"administrator\"%")
+            CAST(m2.meta_value AS CHAR) LIKE "%\"%s\"%")
             WHERE m1.meta_key = "mobile"';
+            $query = $wpdb->prepare($query, $to);
 
             return $wpdb->get_col($query, 0);
         }
