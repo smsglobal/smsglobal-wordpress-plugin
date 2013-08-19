@@ -75,6 +75,15 @@ class Smsglobal_SettingsPage
         register_setting('smsglobal_option_group', 'array_key',
             array($this, 'saveShoppDestination'));
 
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveEcommerceEnabled'));
+
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveEcommerceOrigin'));
+
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveEcommerceDestination'));
+
         add_settings_section(
             'smsglobal_settings_api_key',
             Smsglobal::_('API Key Settings'),
@@ -150,6 +159,37 @@ class Smsglobal_SettingsPage
             array($this, 'getShoppDestinationHtml'),
             'smsglobal',
             'smsglobal_settings_shopp'
+        );
+
+        add_settings_section(
+            'smsglobal_settings_ecommerce',
+            Smsglobal::_('e-Commerce Integration'),
+            array($this, 'getSectionInfo'),
+            'smsglobal'
+        );
+
+        add_settings_field(
+            'ecommerce_enabled',
+            Smsglobal::_('Order alerts'),
+            array($this, 'getEcommerceEnabledHtml'),
+            'smsglobal',
+            'smsglobal_settings_ecommerce'
+        );
+
+        add_settings_field(
+            'ecommerce_origin',
+            Smsglobal::_('SMS comes from'),
+            array($this, 'getEcommerceOriginHtml'),
+            'smsglobal',
+            'smsglobal_settings_ecommerce'
+        );
+
+        add_settings_field(
+            'ecommerce_destination',
+            Smsglobal::_('SMS goes to'),
+            array($this, 'getEcommerceDestinationHtml'),
+            'smsglobal',
+            'smsglobal_settings_ecommerce'
         );
     }
 
@@ -244,6 +284,45 @@ class Smsglobal_SettingsPage
         return $input;
     }
 
+    public function saveEcommerceEnabled($input)
+    {
+        $value = (bool) $input['ecommerce_enabled'];
+
+        if (get_option('smsglobal_ecommerce_enabled') === false) {
+            add_option('smsglobal_ecommerce_enabled', $value);
+        } else {
+            update_option('smsglobal_ecommerce_enabled', $value);
+        }
+
+        return $input;
+    }
+
+    public function saveEcommerceOrigin($input)
+    {
+        $value = $input['ecommerce_origin'];
+
+        if (get_option('smsglobal_ecommerce_origin') === false) {
+            add_option('smsglobal_ecommerce_origin', $value);
+        } else {
+            update_option('smsglobal_ecommerce_origin', $value);
+        }
+
+        return $input;
+    }
+
+    public function saveEcommerceDestination($input)
+    {
+        $value = $input['ecommerce_destination'];
+
+        if (get_option('smsglobal_ecommerce_destination') === false) {
+            add_option('smsglobal_ecommerce_destination', $value);
+        } else {
+            update_option('smsglobal_ecommerce_destination', $value);
+        }
+
+        return $input;
+    }
+
     public function getApiKeyHtml()
     {
         ?><input type="text" id="smsglobal-api-key" name="array_key[api_key]" value="<?php echo get_option('smsglobal_api_key'); ?>"><?php
@@ -286,5 +365,25 @@ class Smsglobal_SettingsPage
     public function getShoppDestinationHtml()
     {
         ?><input type="text" id="smsglobal-shopp-origin" name="array_key[shopp_destination]" value="<?php echo get_option('smsglobal_shopp_destination'); ?>"><?php
+    }
+
+    public function getEcommerceEnabledHtml()
+    {
+        $checked = (bool) get_option('smsglobal_ecommerce_enabled');
+        ?>
+        <label for="smsglobal-ecommerce-enabled">
+        <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-ecommerce-enabled" name="array_key[ecommerce_enabled]" value="1">
+        <?php echo Smsglobal::_('Enable') ?>
+        </label><?php
+    }
+
+    public function getEcommerceOriginHtml()
+    {
+        ?><input type="text" id="smsglobal-ecommerce-origin" name="array_key[ecommerce_origin]" value="<?php echo get_option('smsglobal_ecommerce_origin'); ?>"><?php
+    }
+
+    public function getEcommerceDestinationHtml()
+    {
+        ?><input type="text" id="smsglobal-ecommerce-origin" name="array_key[ecommerce_destination]" value="<?php echo get_option('smsglobal_ecommerce_destination'); ?>"><?php
     }
 }
