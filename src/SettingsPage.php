@@ -60,8 +60,14 @@ class Smsglobal_SettingsPage
         register_setting('smsglobal_option_group', 'array_key',
             array($this, 'saveApiSecret'));
 
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveEnablePostAlerts'));
+
+        register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'savePostAlertsOrigin'));
+
         add_settings_section(
-            'setting_section_id',
+            'smsglobal_settings_api_key',
             Smsglobal::_('API Key Settings'),
             array($this, 'getSectionInfo'),
             'smsglobal'
@@ -72,7 +78,7 @@ class Smsglobal_SettingsPage
             Smsglobal::_('API Key'),
             array($this, 'getApiKeyHtml'),
             'smsglobal',
-            'setting_section_id'
+            'smsglobal_settings_api_key'
         );
 
         add_settings_field(
@@ -80,9 +86,31 @@ class Smsglobal_SettingsPage
             Smsglobal::_('API Secret'),
             array($this, 'getApiSecretHtml'),
             'smsglobal',
-            'setting_section_id'
+            'smsglobal_settings_api_key'
         );
 
+        add_settings_section(
+            'smsglobal_settings_post_alerts',
+            Smsglobal::_('Post Alerts'),
+            array($this, 'getSectionInfo'),
+            'smsglobal'
+        );
+
+        add_settings_field(
+            'enable_post_alerts',
+            Smsglobal::_('Post alerts'),
+            array($this, 'getEnablePostAlertsHtml'),
+            'smsglobal',
+            'smsglobal_settings_post_alerts'
+        );
+
+        add_settings_field(
+            'post_alerts_origin',
+            Smsglobal::_('Send SMS from'),
+            array($this, 'getPostAlertsOriginHtml'),
+            'smsglobal',
+            'smsglobal_settings_post_alerts'
+        );
     }
 
     public function saveApiKey($input)
@@ -111,6 +139,32 @@ class Smsglobal_SettingsPage
         return $input;
     }
 
+    public function saveEnablePostAlerts($input)
+    {
+        $value = $input['enable_post_alerts'];
+
+        if (get_option('smsglobal_enable_post_alerts') === false) {
+            add_option('smsglobal_enable_post_alerts', $value);
+        } else {
+            update_option('smsglobal_enable_post_alerts', $value);
+        }
+
+        return $input;
+    }
+
+    public function savePostAlertsOrigin($input)
+    {
+        $value = $input['post_alerts_origin'];
+
+        if (get_option('smsglobal_post_alerts_origin') === false) {
+            add_option('smsglobal_post_alerts_origin', $value);
+        } else {
+            update_option('smsglobal_post_alerts_origin', $value);
+        }
+
+        return $input;
+    }
+
     public function getApiKeyHtml()
     {
         ?><input type="text" id="smsglobal-api-key" name="array_key[api_key]" value="<?php echo get_option('smsglobal_api_key'); ?>"><?php
@@ -119,5 +173,19 @@ class Smsglobal_SettingsPage
     public function getApiSecretHtml()
     {
         ?><input type="text" id="smsglobal-api-secret" name="array_key[api_secret]" value="<?php echo get_option('smsglobal_api_secret'); ?>"><?php
+    }
+
+    public function getEnablePostAlertsHtml()
+    {
+        $checked = (bool) get_option('smsglobal_enable_post_alerts');
+        ?><label for="smsglobal-enable-post-alerts">
+            <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-enable-post-alerts" name="array_key[enable_post_alerts]" value="1">
+            Enable
+        </label><?php
+    }
+
+    public function getPostAlertsOriginHtml()
+    {
+        ?><input type="text" id="smsglobal-post-alerts-origin" name="array_key[post_alerts_origin]" value="<?php echo get_option('smsglobal_post_alerts_origin'); ?>"><?php
     }
 }

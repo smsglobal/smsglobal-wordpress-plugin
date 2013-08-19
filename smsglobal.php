@@ -19,17 +19,10 @@ register_activation_hook( __FILE__, 'smsglobal_install_data' );
 
 load_plugin_textdomain('smsglobal', false, basename($dir) . '/languages');
 
-function modify_contact_methods($profile_fields) {
-
-    // Add new fields
-    $profile_fields['mobile'] = 'Mobile Phone Number';
-
-    return $profile_fields;
-}
-add_filter('user_contactmethods', 'modify_contact_methods');
-
 new Smsglobal_SettingsPage();
 new Smsglobal_SmsPage();
+new Smsglobal_UserList();
+new Smsglobal_PostAlert();
 
 // Clean up the global namespace
 unset($dir);

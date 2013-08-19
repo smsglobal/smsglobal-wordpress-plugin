@@ -38,6 +38,11 @@ class Smsglobal_SmsPage
             $errors = $this->processForm($_POST);
         }
 
+        $from = isset($_POST['from']) ? $_POST['from'] : get_option('smsglobal_post_alerts_origin');
+        $to = isset($_POST['to']) ? $_POST['to'] : 'all';
+        $number = isset($_POST['number']) ? $_POST['number'] : '';
+        $message = isset($_POST['message']) ? $_POST['message'] : '';
+
         $isConfigured = $this->checkConfiguration();
         ?>
         <div class="wrap">
@@ -73,20 +78,20 @@ class Smsglobal_SmsPage
                 <table class="form-table">
                     <tr valign="top">
                         <th scope="row"><label for="id_from">From</label></th>
-                        <td><input class="regular-text" id="id_from" name="from" type="text"></td>
+                        <td><input class="regular-text" id="id_from" name="from" type="text" value="<?php echo esc_attr($from) ?>"></td>
                     </tr>
                     <tr valign="top">
                         <th scope="row"><label for="id_to">To</label></th>
                         <td><select name="to" id="id_to">
                             <?php foreach ($toOptions as $value => $label): ?>
-                                <option value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal::_($label)) ?></option>
+                                <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal::_($label)) ?></option>
                             <?php endforeach ?>
                         </select>
-                        <input class="regular-text" id="id_number" name="number" type="tel"></td>
+                        <input class="regular-text" id="id_number" name="number" type="tel" value="<?php echo esc_attr($number) ?>"></td>
                     </tr>
                     <tr valign="top">
                         <th scope="row"><label for="id_message">Message</label></th>
-                        <td><textarea cols="50" id="id_message" rows="10" name="message" class="large-text"></textarea></td>
+                        <td><textarea cols="50" id="id_message" rows="10" name="message" class="large-text"><?php echo esc_html($message) ?></textarea></td>
                     </tr>
                 </table>
 
