@@ -6,6 +6,8 @@ $smsglobal_files = array(
     'SettingsPage.php',
     'Shopp.php',
     'Smsglobal.php',
+    'ListPage.php',
+    'GroupPage.php',
     'SmsPage.php',
     'Widget.php',
     'UserList.php',

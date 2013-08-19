@@ -21,6 +21,8 @@ load_plugin_textdomain('smsglobal', false, basename($dir) . '/languages');
 
 new Smsglobal_SettingsPage();
 new Smsglobal_SmsPage();
+new Smsglobal_ListPage();
+new Smsglobal_GroupPage();
 new Smsglobal_UserList();
 new Smsglobal_PostAlert();
 
