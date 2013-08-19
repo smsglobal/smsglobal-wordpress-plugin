@@ -11,12 +11,18 @@ class Smsglobal_PostAlert
 
     public function addMetaBox()
     {
+        global $wp_version;
+
+        $isPre27 = -1 === version_compare($wp_version, '2.7')
+            || -1 === version_compare($wp_version, '2.7.0');
+
         add_meta_box(
             'smsglobal-post-alerts',
             Smsglobal::_('SMS Post Alerts'),
             array($this, 'getMetaBox'),
             'post',
-            'side',
+            // side was added on 2.7
+            $isPre27 ? 'advanced' : 'side',
             'high'
         );
     }
