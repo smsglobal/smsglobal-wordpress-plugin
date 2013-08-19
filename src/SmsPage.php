@@ -164,8 +164,7 @@ class Smsglobal_SmsPage
             // Do the send
             $to = $this->toValueToNumbers($to);
 
-            $apiKey = new Smsglobal\RestApiClient\ApiKey(get_option('smsglobal_api_key'), get_option('smsglobal_api_secret'));
-            $rest = new Smsglobal\RestApiClient\RestApiClient($apiKey);
+            $rest = Smsglobal::getRestClient();
 
             $sms = new \Smsglobal\RestApiClient\Resource\Sms();
             $sms->setOrigin($from)

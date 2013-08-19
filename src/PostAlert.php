@@ -62,11 +62,7 @@ class Smsglobal_PostAlert
 
             $origin = get_option('smsglobal_post_alerts_origin');
 
-            $apiKey = new Smsglobal\RestApiClient\ApiKey(
-                get_option('smsglobal_api_key'),
-                get_option('smsglobal_api_secret')
-            );
-            $rest = new Smsglobal\RestApiClient\RestApiClient($apiKey);
+            $rest = Smsglobal::getRestClient();
 
             // Send the SMS
             $sms = new Smsglobal\RestApiClient\Resource\Sms();

@@ -3,6 +3,22 @@ class Smsglobal
 {
     protected static $roles;
 
+    protected static $restClient;
+
+    public static function getRestClient()
+    {
+        if (null === self::$restClient) {
+            $apiKey = new Smsglobal\RestApiClient\ApiKey(
+                get_option('smsglobal_api_key'),
+                get_option('smsglobal_api_secret')
+            );
+
+            self::$restClient = new Smsglobal\RestApiClient\RestApiClient($apiKey);
+        }
+
+        return self::$restClient;
+    }
+
     public static function _($string, $namespace = 'smsglobal')
     {
         return __($string, $namespace);
