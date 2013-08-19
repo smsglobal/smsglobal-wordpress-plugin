@@ -51,3 +51,17 @@ function smsglobal_insert_subscription($name, $mobile, $url, $email) {
         )
     );
 }
+
+function smsglobal_get_subscription($name = null, $mobile = null) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . "sms_subscription";
+
+    $query = "SELECT * FROM $table_name";
+    $query .= ($name != null) ? " WHERE (`name` LIKE '%$name%' OR `name` LIKE '%$name%' OR `name` LIKE '%$name%') " : "";
+    if ($mobile != null) {
+        $query .= $name != null ? " AND " : " WHERE ";
+        $query .= " (`name` LIKE '%$name%' OR `name` LIKE '%$name%' OR `name` LIKE '%$name%') ";
+    }
+    $query .= " ORDER BY `time` DESC";
+    return $wpdb->get_results($query);
+}
