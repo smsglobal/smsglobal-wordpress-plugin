@@ -23,6 +23,7 @@ new Smsglobal_SettingsPage();
 new Smsglobal_SmsPage();
 new Smsglobal_UserList();
 new Smsglobal_PostAlert();
+new Smsglobal_Shopp();
 
 // Clean up the global namespace
 unset($dir);

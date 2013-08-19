@@ -2,8 +2,9 @@
 $smsglobal_files = array(
     'Data.php',
     'PostAlert.php',
-    'Smsglobal.php',
     'SettingsPage.php',
+    'Shopp.php',
+    'Smsglobal.php',
     'SmsPage.php',
     'Widget.php',
     'UserList.php',
