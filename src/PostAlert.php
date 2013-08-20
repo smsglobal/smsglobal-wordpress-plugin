@@ -97,7 +97,7 @@ class Smsglobal_PostAlert
 
         $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
             JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
-            m2.meta_key = "send_post_alerts" AND m2.meta_value = "1")';
+            m2.meta_key = "smsglobal_send_post_alerts" AND m2.meta_value = "1")';
 
         if ('all' !== $role) {
             $query .= ' JOIN ' . $wpdb->usermeta . ' m3 ON (m1.user_id = m3.user_id AND

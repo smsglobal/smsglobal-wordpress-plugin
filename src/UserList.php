@@ -25,7 +25,7 @@ class Smsglobal_UserList
         $profileFields['mobile'] = Smsglobal::_('Mobile Number');
 
         if ($this->arePostAlertsEnabled()) {
-            $profileFields['send_post_alerts'] = Smsglobal::_('Send Post Alerts');
+            $profileFields['smsglobal_send_post_alerts'] = Smsglobal::_('Send Post Alerts');
         }
 
         return $profileFields;
@@ -36,7 +36,7 @@ class Smsglobal_UserList
         $defaults['mobile'] = Smsglobal::_('Mobile Number');
 
         if ($this->arePostAlertsEnabled()) {
-            $defaults['send_post_alerts'] = Smsglobal::_('Send Post Alerts');
+            $defaults['smsglobal_send_post_alerts'] = Smsglobal::_('Send Post Alerts');
         }
 
         return $defaults;
@@ -44,10 +44,10 @@ class Smsglobal_UserList
 
     function getCustomField($value, $column, $id)
     {
-        if ('mobile' === $column || 'send_post_alerts' === $column) {
-            $value = get_usermeta($id, $column);
+        if ('mobile' === $column || 'smsglobal_send_post_alerts' === $column) {
+            $value = get_user_meta($id, $column);
 
-            if ('send_post_alerts' === $column) {
+            if ('smsglobal_send_post_alerts' === $column) {
                 $value = (bool) $value;
                 $value = $value ? 'Yes' : 'No';
             }
