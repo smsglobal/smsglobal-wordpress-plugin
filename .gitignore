@@ -1,11 +1,5 @@
 composer.lock
+deploy
 vendor
 wordpress-tests
-.idea/.name
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/s.smsglobal-wordpress-plugin.iml
-.idea/scopes/scope_settings.xml
-.idea/vcs.xml
-.idea/workspace.xml
+.idea
