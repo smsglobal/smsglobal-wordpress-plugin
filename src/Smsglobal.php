@@ -5,6 +5,8 @@ class Smsglobal
 
     protected static $restClient;
 
+    protected static $templatePath;
+
     public static function getRestClient()
     {
         if (null === self::$restClient) {
@@ -40,5 +42,21 @@ class Smsglobal
         }
 
         return self::$roles;
+    }
+
+    public static function renderTemplate($name, array $vars = array())
+    {
+        if (null === self::$templatePath) {
+            self::$templatePath = realpath(dirname(__FILE__) . '/../templates');
+        }
+
+        extract($vars);
+
+        ob_start();
+        require sprintf('%s/%s.phtml', self::$templatePath, $name);
+        $template = ob_get_contents();
+        ob_end_clean();
+
+        return $template;
     }
 }

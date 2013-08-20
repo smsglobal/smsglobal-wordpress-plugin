@@ -61,6 +61,9 @@ class Smsglobal_SettingsPage
             array($this, 'saveApiSecret'));
 
         register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveEnableAuth'));
+
+        register_setting('smsglobal_option_group', 'array_key',
             array($this, 'saveEnablePostAlerts'));
 
         register_setting('smsglobal_option_group', 'array_key',
@@ -105,6 +108,29 @@ class Smsglobal_SettingsPage
             array($this, 'getApiSecretHtml'),
             'smsglobal',
             'smsglobal_settings_api_key'
+        );
+
+        add_settings_section(
+            'smsglobal_settings_auth',
+            Smsglobal::_('2 Factor Authentication'),
+            array($this, 'getSectionInfo'),
+            'smsglobal'
+        );
+
+        add_settings_field(
+            'enable_auth',
+            Smsglobal::_('Require SMS code for admin panel'),
+            array($this, 'getEnableAuthHtml'),
+            'smsglobal',
+            'smsglobal_settings_auth'
+        );
+
+        add_settings_field(
+            'auth_origin',
+            Smsglobal::_('SMS comes from'),
+            array($this, 'getAuthOriginHtml'),
+            'smsglobal',
+            'smsglobal_settings_auth'
         );
 
         add_settings_section(
@@ -214,6 +240,32 @@ class Smsglobal_SettingsPage
             add_option('smsglobal_api_secret', $value);
         } else {
             update_option('smsglobal_api_secret', $value);
+        }
+
+        return $input;
+    }
+
+    public function saveEnableAuth($input)
+    {
+        $value = (bool) $input['enable_auth'];
+
+        if (get_option('smsglobal_enable_auth') === false) {
+            add_option('smsglobal_enable_auth', $value);
+        } else {
+            update_option('smsglobal_enable_auth', $value);
+        }
+
+        return $input;
+    }
+
+    public function saveAuthOrigin($input)
+    {
+        $value = $input['auth_origin'];
+
+        if (get_option('smsglobal_auth_origin') === false) {
+            add_option('smsglobal_auth_origin', $value);
+        } else {
+            update_option('smsglobal_auth_origin', $value);
         }
 
         return $input;
@@ -331,6 +383,21 @@ class Smsglobal_SettingsPage
     public function getApiSecretHtml()
     {
         ?><input type="text" id="smsglobal-api-secret" name="array_key[api_secret]" value="<?php echo get_option('smsglobal_api_secret'); ?>"><?php
+    }
+
+    public function getEnableAuthHtml()
+    {
+        $checked = (bool) get_option('smsglobal_enable_auth');
+        ?>
+        <label for="smsglobal-auth-enabled">
+        <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-auth-enabled" name="array_key[enable_auth]" value="1">
+        <?php echo Smsglobal::_('Enable') ?>
+        </label><?php
+    }
+
+    public function getAuthOriginHtml()
+    {
+        ?><input type="text" id="smsglobal-auth-origin" name="array_key[auth_origin]" value="<?php echo get_option('smsglobal_auth_origin'); ?>"><?php
     }
 
     public function getEnablePostAlertsHtml()

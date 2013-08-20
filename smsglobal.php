@@ -25,6 +25,7 @@ new Smsglobal_ListPage();
 new Smsglobal_GroupPage();
 new Smsglobal_UserList();
 new Smsglobal_PostAlert();
+new Smsglobal_Authentication();
 
 // Integration with other plugins
 new Smsglobal_Shopp();

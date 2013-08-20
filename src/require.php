@@ -1,5 +1,6 @@
 <?php
 $smsglobal_files = array(
+    'Authentication.php',
     'Data.php',
     'Ecommerce.php',
     'PostAlert.php',
