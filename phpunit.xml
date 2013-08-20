@@ -8,4 +8,11 @@
             <directory prefix="" suffix="php">./tests</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <blacklist>
+            <directory>deploy</directory>
+            <directory>vendor</directory>
+            <directory>wordpress-tests</directory>
+        </blacklist>
+    </filter>
 </phpunit>
