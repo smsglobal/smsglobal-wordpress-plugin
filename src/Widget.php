@@ -86,25 +86,27 @@ class Smsglobal_Subscription_Widget extends WP_Widget
 
     <div id="smsglobal_alertmessage"></div>
     <div id="subscription_wrapper">
+        <form class="" id="subscription_form" method="POST" action="<?php echo get_option('siteurl'); ?>/wp-content/plugins/smsglobal/scripts/subscriptionSave.php">
         <div>
-            <label for="smsglobal_name"><?php if ( ! empty( $instance['name_label'] ) ) echo $instance['name_label'] ?></label>
-            <input class="widefat" id="smsglobal_name" name="smsglobal_name" type="text" value="" />
+            <label for="name"><?php if ( ! empty( $instance['name_label'] ) ) echo $instance['name_label']; ?></label>
+            <input class="widefat" id="name" name="name" type="text" value="" />
         </div>
         <div>
-            <label for="smsglobal_mobile"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label'] ?></label>
-            <input class="widefat" id="smsglobal_mobile" name="smsglobal_mobile" type="text" value="" />
+            <label for="mobile"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label']; ?></label>
+            <input class="widefat" id="mobile" name="mobile" type="text" value="" />
         </div>
         <div>
-            <label for="smsglobal_email"><?php if ( ! empty( $instance['email_label'] ) ) echo $instance['email_label'] ?></label>
-            <input class="widefat" id="smsglobal_email" name="smsglobal_email" type="text" value="" />
+            <label for="email"><?php if ( ! empty( $instance['email_label'] ) ) echo $instance['email_label']; ?></label>
+            <input class="widefat" id="email" name="email" type="text" value="" />
         </div>
         <div>
-            <label for="smsglobal_url"><?php if ( ! empty( $instance['url_label'] ) ) echo $instance['url_label'] ?></label>
-            <input class="widefat" id="smsglobal_url" name="smsglobal_url" type="text" value="" />
+            <label for="url"><?php if ( ! empty( $instance['url_label'] ) ) echo $instance['url_label']; ?></label>
+            <input class="widefat" id="url" name="url" type="text" value="" />
         </div>
         <div>
-            <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>" onclick="javascript:smsglobal_subscription_submit(this.parentNode,'<?php echo get_option('siteurl') ?>/wp-content/plugins/smsglobal/');"/>
+            <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
         </div>
+        </form>
     </div>
 <?php
 		echo $args['after_widget'];
@@ -113,15 +115,10 @@ class Smsglobal_Subscription_Widget extends WP_Widget
 
 function gCF_add_javascript_files()
 {
-    if (!is_admin()) {
-        wp_enqueue_style(
-            'smsglobal', get_option('siteurl') .
-            '/wp-content/plugins/smsglobal/assets/smsglobal.css'
-        );
-        wp_enqueue_script(
-            'smsglobal', get_option('siteurl') .
-            '/wp-content/plugins/smsglobal/assets/smsglobal.js'
-        );
+    if (!is_admin())
+    {
+        wp_enqueue_style( 'smsglobal', get_option('siteurl').'/wp-content/plugins/smsglobal/assets/smsglobal.css');
+        wp_enqueue_script( 'smsglobal', get_option('siteurl').'/wp-content/plugins/smsglobal/assets/smsglobal.js',  array('jquery'));
     }
 }
 

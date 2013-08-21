@@ -1,97 +1,61 @@
-var http_req = false;
-function sgSubscriptionPOSTRequest(url, parameters) {
-    http_req = false;
-    if (window.XMLHttpRequest) {
-        http_req = new XMLHttpRequest();
-        if (http_req.overrideMimeType) { http_req.overrideMimeType('text/html');}
-    } else if (window.ActiveXObject) { // IE
-        try {
-            http_req = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            try {
-                http_req = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e) {}
-        }
-    }
-    if (!http_req) {
-        alert('Cannot create XMLHTTP instance');
-        return false;
-    }
+jQuery(function($) {
 
-    http_req.onreadystatechange = sgSubscriptionContents;
-    http_req.open('POST', url, true);
-    http_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http_req.setRequestHeader("Content-length", parameters.length);
-    http_req.setRequestHeader("Connection", "close");
-    http_req.send(parameters);
-}
+    $("#subscription_form").submit(function(e) {
 
-function sgSubscriptionContents()
-{
-    if (http_req.readyState == 4)
-    {
-        if (http_req.status == 200)
+        var _e = $("#email");
+        var _n = $("#name");
+        var _m = $("#mobile");
+
+        if(_n.val()=="")
         {
-            if(http_req.responseText != "Name and Mobile are invalid.")
-            {
-                result = http_req.responseText;
-                document.getElementById('smsglobal_alertmessage').innerHTML = result;
-            }
-            else
-            {
-                result = http_req.responseText;
-                document.getElementById('smsglobal_alertmessage').innerHTML = result;
-                document.getElementById("smsglobal_email").value = "";
-                document.getElementById("smsglobal_name").value = "";
-                document.getElementById("smsglobal_mobile").value = "";
-                document.getElementById("smsglobal_url").value = "";
-                document.getElementById("subscription_wrapper").innerHTML = "";
-            }
+            $('#smsglobal_alertmessage').html("Please enter your full name.");
+            _n.focus();
+            return false;
         }
-        else
+        else if(_e.val() =="")
         {
-            document.getElementById('smsglobal_alertmessage').innerHTML = 'There was a problem with the request.';
+            $('#smsglobal_alertmessage').html("Please enter your email address.");
+            _e.focus();
+            return false;
         }
-    }
-}
+        else if(_e.val()!="" && (_e.val().indexOf("@",0)==-1 || _e.val().indexOf(".",0)==-1))
+        {
+            $('#smsglobal_alertmessage').html("Please enter a valid email address.");
+            _e.focus();
+            _e.select();
+            return false;
+        }
+        else if(_m.val()=="")
+        {
+            $('#smsglobal_alertmessage').html("Please enter your mobile number.");
+            _m.focus();
+            return false;
+        }
 
-function smsglobal_subscription_submit(obj,url)
-{
+        $('#smsglobal_alertmessage').html("Sending...");
+        var url = $(this).prop('action');
 
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data : $('#subscription_form').serialize(),
+            beforeSend: function ( xhr ) {
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            }
+        }).done(function ( data ) {
+            $('#smsglobal_alertmessage').html(data);
+            if(data == "We have sent you a verification code to your mobile.")
+            {
+                $("#smsglobal_email").val("");
+                $("#smsglobal_name").val("");
+                $("#smsglobal_url").val("");
+                $("#subscription_wrapper form").hide();
+            }
+        }).fail(function() {
+            $('#smsglobal_alertmessage').innerHTML = 'There was a problem with the request.';
+        });
 
-    _e=document.getElementById("smsglobal_email");
-    _n=document.getElementById("smsglobal_name");
-    _m=document.getElementById("smsglobal_mobile");
-
-    if(_n.value=="")
-    {
-        document.getElementById('smsglobal_alertmessage').innerHTML = "Please enter your full name.";
-        _n.focus();
+        e.preventDefault();
         return false;
-    }
-    else if(_e.value=="")
-    {
-        document.getElementById('smsglobal_alertmessage').innerHTML = "Please enter your email address.";
-        _e.focus();
-        return false;
-    }
-    else if(_e.value!="" && (_e.value.indexOf("@",0)==-1 || _e.value.indexOf(".",0)==-1))
-    {
-        document.getElementById('smsglobal_alertmessage').innerHTML = "Please enter a valid email address.";
-        _e.focus();
-        _e.select();
-        return false;
-    }
-    else if(_m.value=="")
-    {
-        document.getElementById('smsglobal_alertmessage').innerHTML = "Please enter your mobile number.";
-        _m.focus();
-        return false;
-    }
-
-    document.getElementById('smsglobal_alertmessage').innerHTML = "Sending...";
-
-    var str = "name=" + encodeURI( document.getElementById("smsglobal_name").value ) + "&email=" + encodeURI( document.getElementById("smsglobal_email").value ) + "&mobile=" + encodeURI( document.getElementById("smsglobal_mobile").value ) + "&url=" + encodeURI( document.getElementById("smsglobal_url").value)  + "&email=" + encodeURI( document.getElementById("smsglobal_email").value);
-
-    sgSubscriptionPOSTRequest(url+'/scripts/subscriptionSave.php', str);
-}
+    });
+});

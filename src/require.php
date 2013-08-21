@@ -18,7 +18,7 @@ $smsglobal_files = array(
 $smsglobal_dir = dirname(__FILE__);
 
 foreach ($smsglobal_files as $smsglobal_file) {
-    require sprintf('%s/%s', $smsglobal_dir, $smsglobal_file);
+    require_once sprintf('%s/%s', $smsglobal_dir, $smsglobal_file);
 }
 
 // Clean up the global namespace
