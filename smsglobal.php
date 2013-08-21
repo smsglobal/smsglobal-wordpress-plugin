@@ -11,7 +11,9 @@ License: MIT
 $dir = dirname(__FILE__);
 
 require $dir . '/src/require.php';
-require $dir . '/vendor/autoload.php';
+require $dir . '/vendor/rest-api-client-php-5.2/Smsglobal/Autoloader.php';
+
+Smsglobal_Autoloader::register();
 
 // Set up
 register_activation_hook(__FILE__, 'smsglobal_install');

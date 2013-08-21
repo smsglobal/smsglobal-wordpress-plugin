@@ -10,12 +10,12 @@ class Smsglobal
     public static function getRestClient()
     {
         if (null === self::$restClient) {
-            $apiKey = new Smsglobal\RestApiClient\ApiKey(
+            $apiKey = new Smsglobal_RestApiClient_ApiKey(
                 get_option('smsglobal_api_key'),
                 get_option('smsglobal_api_secret')
             );
 
-            self::$restClient = new Smsglobal\RestApiClient\RestApiClient($apiKey);
+            self::$restClient = new Smsglobal_RestApiClient_RestApiClient($apiKey);
         }
 
         return self::$restClient;

@@ -19,7 +19,7 @@ class Smsglobal_Shopp
 
         $rest = Smsglobal::getRestClient();
 
-        $sms = new Smsglobal\RestApiClient\Resource\Sms();
+        $sms = new Smsglobal_RestApiClient_Resource_Sms();
         $sms->setOrigin($origin)
             ->setDestination($destination)
             ->setMessage($message)

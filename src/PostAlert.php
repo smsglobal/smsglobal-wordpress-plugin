@@ -71,7 +71,7 @@ class Smsglobal_PostAlert
             $rest = Smsglobal::getRestClient();
 
             // Send the SMS
-            $sms = new Smsglobal\RestApiClient\Resource\Sms();
+            $sms = new Smsglobal_RestApiClient_Resource_Sms();
             $sms->setOrigin($origin)
                 ->setMessage($message);
 
@@ -79,7 +79,7 @@ class Smsglobal_PostAlert
                 try {
                     $sms->setDestination($msisdn)
                         ->send($rest);
-                } catch (\Smsglobal\RestApiClient\Exception\InvalidDataException $ex) {
+                } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
                     foreach ($ex->getErrors() as $field => $error) {
                         echo sprintf('%s: %s', $field, $error), PHP_EOL;
                     }

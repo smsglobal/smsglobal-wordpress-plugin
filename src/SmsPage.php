@@ -166,7 +166,7 @@ class Smsglobal_SmsPage
 
             $rest = Smsglobal::getRestClient();
 
-            $sms = new \Smsglobal\RestApiClient\Resource\Sms();
+            $sms = new Smsglobal_RestApiClient_Resource_Sms();
             $sms->setOrigin($from)
                 ->setMessage($message);
 
@@ -174,7 +174,7 @@ class Smsglobal_SmsPage
                 try {
                     $sms->setDestination($destination)
                         ->send($rest);
-                } catch (\Smsglobal\RestApiClient\Exception\InvalidDataException $ex) {
+                } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
                     return $ex->getErrors();
                 }
             }

@@ -54,15 +54,14 @@ class Smsglobal_Authentication
 
         // Send the message
         $rest = Smsglobal::getRestClient();
-        $sms = new \Smsglobal\RestApiClient\Resource\Sms();
+        $sms = new Smsglobal_RestApiClient_Resource_Sms();
         $sms->setOrigin(get_option('smsglobal_auth_origin'))
             ->setMessage($message)
             ->setDestination($mobile);
 
         try {
             $sms->send($rest);
-        } catch (\Smsglobal\RestApiClient\Exception\InvalidDataException $ex) {
-            var_dump($ex->getErrors());die;
+        } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
             foreach ($ex->getErrors() as $field => $error) {
                 echo sprintf('%s: %s', $field, $error), PHP_EOL;
             }
