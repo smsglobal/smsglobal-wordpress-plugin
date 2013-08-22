@@ -36,6 +36,7 @@ class Smsglobal_Ecommerce
 
         $query = 'SELECT totalprice FROM ' . $wpdb->prefix . 'wpsc_purchase_logs WHERE id = %d';
         $totalPrice = $wpdb->get_col($wpdb->prepare($query, $logId));
+        $totalPrice = $totalPrice[0];
 
         return wpsc_currency_display(
             $totalPrice,
