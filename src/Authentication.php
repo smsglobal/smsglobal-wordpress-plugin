@@ -1,6 +1,15 @@
 <?php
 class Smsglobal_Authentication
 {
+    /**
+     * The number of digits in the verification code. The code will always be
+     * 1xxx - 9yyy where x = 0 and y = 9, repeated so the code length is as set
+     */
+    const CODE_LENGTH = 4;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         if (!get_option('smsglobal_enable_auth')) {
@@ -9,7 +18,7 @@ class Smsglobal_Authentication
 
         // Config override
         if (defined('SMSGLOBAL_AUTH')) {
-            if (constant('SMSGLOBAL_AUTH') === false) {
+            if (SMSGLOBAL_AUTH === false) {
                 return;
             }
         }
@@ -50,7 +59,6 @@ class Smsglobal_Authentication
 
         $code = $this->hashCode($code, $user);
         update_user_meta($user->ID, 'smsglobal_auth_code', $code);
-        update_user_meta($user->ID, 'smsglobal_auth_time', time());
 
         // Send the message
         $rest = Smsglobal::getRestClient();
@@ -68,43 +76,66 @@ class Smsglobal_Authentication
         }
     }
 
+    /**
+     * Handles the login request, showing a prompt for the SMS code if needed
+     */
     public function handleAuth()
     {
         $user = wp_get_current_user();
+        $actualCode = get_user_meta($user->ID, 'smsglobal_auth_code', true);
 
-        // Have we entered a code?
         if (isset($_POST['code'])) {
-            $actualCode = get_user_meta($user->ID, 'smsglobal_auth_code', true);
+            // Code entered. Compare it to the saved one
             $code = $this->hashCode($_POST['code'], $user);
 
             if ($actualCode === $code) {
+                // Login successful! Clear the code and continue as normal
                 $this->clearCode();
 
                 return;
             }
         }
 
-        $code = get_user_meta($user->ID, 'smsglobal_auth_code', true);
-        if ($code) {
+        if ($actualCode) {
+            // The user has a code but hasn't filled out the form yet. Show it
             echo Smsglobal::renderTemplate('sms-code-form');
             die;
         }
     }
 
+    /**
+     * Generates the SMS code
+     *
+     * @return int
+     */
     protected function generateCode()
     {
-        return mt_rand(1000, 9999);
+        // 1000
+        $start = pow(10, self::CODE_LENGTH - 1);
+        // 9999
+        $end = $start * 10 - 1;
+
+        return mt_rand($start, $end);
     }
 
+    /**
+     * Hashes the SMS code for storage using the username as a salt
+     *
+     * @param int     $code
+     * @param WP_User $user
+     * @return string
+     */
     protected function hashCode($code, WP_User $user)
     {
         return sha1($code . $user->user_login);
     }
 
+    /**
+     * Clears the code data for the current user, so it no longer asks for it
+     */
     public function clearCode()
     {
         $user = wp_get_current_user();
-        delete_user_meta($user->ID, 'smsglobal_auth_time');
         delete_user_meta($user->ID, 'smsglobal_auth_code');
     }
 }
