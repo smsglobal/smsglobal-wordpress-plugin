@@ -81,12 +81,6 @@ class Smsglobal_Authentication
                 $this->clearCode();
 
                 return;
-            } else {
-                $this->render_template(
-                    'code-form',
-                    array('error_message' => "Your code was entered incorrectly. Please try again.")
-                );
-                die();
             }
         }
 
