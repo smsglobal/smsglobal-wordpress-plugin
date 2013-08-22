@@ -77,6 +77,17 @@ function smsglobal_mark_subscription_verified($mobile) {
         null,
         null
     );
+
+    $table_name = $wpdb->prefix . "sms_verification";
+    $wpdb->update(
+        $table_name,
+        array(
+            'activated_time' => current_time('mysql')
+        ),
+        array( 'mobile' => $mobile ),
+        null,
+        null
+    );
 }
 
 
@@ -112,7 +123,7 @@ function smsglobal_verify($code, $mobile) {
     $table_name = $wpdb->prefix . "sms_verification";
 
     $rows_affected = $wpdb->get_results(
-        "SELECT * FROM $table_name WHERE `mobile` = '$mobile' AND `code`= '$code' AND activated != 1 LIMIT 1"
+        "SELECT * FROM $table_name WHERE `mobile` = '$mobile' AND `code`= '$code' LIMIT 1"
     );
     return count($rows_affected) > 0;
 }

@@ -11,7 +11,7 @@ require_once($abspath_1 .'wp-includes/general-template.php');
 $dir = dirname(__FILE__);
 
 require $dir . '/../src/require.php';
-require $dir . '/../vendor/autoload.php';
+//require $dir . '/../vendor/autoload.php';
 
 $name = $_POST['name'];
 $mobile = $_POST['mobile'];
@@ -29,15 +29,16 @@ if( !empty($name) && !empty($mobile) )
         $from = get_bloginfo('name');
         if($from == '')
             $from = 'pool:1';
+        $from = 'pool:1';
         $verificationCode = Smsglobal::getVerificationCode($mobile);
         smsglobal_insert_verification($verificationCode, $mobile);
-        $sms = new \Smsglobal\RestApiClient\Resource\Sms();
+        $sms = new Smsglobal_RestApiClient_Resource_Sms();
         $sms->setOrigin($from)
             ->setMessage('Subscription Activation Code: '.$verificationCode);
         try {
             $sms->setDestination($mobile)
                 ->send($rest);
-        } catch (\Smsglobal\RestApiClient\Exception\InvalidDataException $ex) {
+        } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
             echo "Unable to send verification code to this mobile number";
             exit();
         }
