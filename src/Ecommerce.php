@@ -1,6 +1,9 @@
 <?php
 class Smsglobal_Ecommerce
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         if (get_option('smsglobal_ecommerce_enabled')) {
@@ -8,32 +11,54 @@ class Smsglobal_Ecommerce
         }
     }
 
+    /**
+     * Sends an SMS when a new order is placed
+     *
+     * @param int $logId
+     */
     public function newOrderSms($logId)
+    {
+        $price = $this->getTotalPrice($logId);
+        $message = $this->getMessage($logId, $price);
+
+        $this->sendSms($message);
+    }
+
+    /**
+     * Gets the total price of an order log with the currency symbol
+     *
+     * @param int $logId
+     * @return string
+     */
+    protected function getTotalPrice($logId)
     {
         global $wpdb;
 
-        $query = 'SELECT * FROM {$wpdb->prefix}wpsc_purchase_logs WHERE id = %d';
-        $purchaseData = array('purchlog_id' => $logId);
-        $purchaseData['purchlog_data'] = $wpdb->get_row($wpdb->prepare($query, $logId), ARRAY_A);
+        $query = 'SELECT totalprice FROM ' . $wpdb->prefix . 'wpsc_purchase_logs WHERE id = %d';
+        $totalPrice = $wpdb->get_col($wpdb->prepare($query, $logId));
 
-        $origin = get_option('smsglobal_ecommerce_origin');
-
-        $price = wpsc_currency_display(
-            $purchaseData['purchlog_data']['totalprice'],
+        return wpsc_currency_display(
+            $totalPrice,
             array(
                 'display_as_html' => false,
                 'display_currency_symbol' => true,
             )
         );
-        $message = Smsglobal::_('Order #%s placed for %s');
-        $message = sprintf($message, $logId['purchase_log_id'], $price);
+    }
 
+    /**
+     * Sends the SMS using the specified message
+     *
+     * @param string $message
+     */
+    protected function sendSms($message)
+    {
         // Send the message
-        $destination = get_option('smsglobal_ecommerce_destination');
-
         $rest = Smsglobal::getRestClient();
-
         $sms = new Smsglobal_RestApiClient_Resource_Sms();
+
+        $origin = get_option('smsglobal_ecommerce_origin');
+        $destination = get_option('smsglobal_ecommerce_destination');
 
         $sms->setOrigin($origin)
             ->setMessage($message)
@@ -46,5 +71,20 @@ class Smsglobal_Ecommerce
                 echo sprintf('%s: %s', $field, $error), PHP_EOL;
             }
         }
+    }
+
+    /**
+     * Generates the message to send via SMS
+     *
+     * @param int $logId
+     * @param string $price
+     * @return string
+     */
+    protected function getMessage($logId, $price)
+    {
+        $message = Smsglobal::_('Order #%s placed for %s');
+        $message = sprintf($message, $logId['purchase_log_id'], $price);
+
+        return $message;
     }
 }
