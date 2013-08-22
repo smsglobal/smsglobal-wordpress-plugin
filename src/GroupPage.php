@@ -1,8 +1,6 @@
 <?php
 class Smsglobal_GroupPage
 {
-    protected $toOptions;
-
     public function __construct()
     {
         if (is_admin()) {
@@ -34,8 +32,6 @@ class Smsglobal_GroupPage
     {
         $apiClient = Smsglobal::getRestClient();
         $groups = $apiClient->getList('group')->objects;
-
-        $isConfigured = $this->checkConfiguration();
         ?>
     <div class="wrap">
         <?php screen_icon() ?>
@@ -68,10 +64,10 @@ class Smsglobal_GroupPage
             <table class="wp-list-table widefat plugins">
                 <thead>
                 <tr valign="top">
-                    <th scope="row">ID</th>
-                    <th scope="row">name</th>
-                    <th scope="row">keyword</th>
-                    <th scope="row">defaultOrigin</th>
+                    <th scope="row"><?php echo Smsglobal::_('ID') ?></th>
+                    <th scope="row"><?php echo Smsglobal::_('Name') ?></th>
+                    <th scope="row"><?php echo Smsglobal::_('Keyword') ?></th>
+                    <th scope="row"><?php echo Smsglobal::_('Default Origin') ?></th>
                 </tr>
                 </thead>
                 <?php foreach ($groups as $group): ?>
@@ -95,7 +91,7 @@ class Smsglobal_GroupPage
                 <!--                    </select>-->
                 <!--                    <input type="submit" name="" id="doaction2" class="button action" value="Apply">-->
                 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo count($groups); ?> contact groups</span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal::_('%s contact groups', count($groups))) ?></span>
                     <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
                     <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
                     <!--<span class="paging-input">1 of <span class="total-pages">1</span></span>-->
@@ -113,23 +109,5 @@ class Smsglobal_GroupPage
         ?>
     </div>
     <?php
-    }
-
-    protected function checkConfiguration()
-    {
-        $key = get_option('smsglobal_api_key');
-        $secret = get_option('smsglobal_api_secret');
-
-        return false !== $key && false !== $secret;
-    }
-
-    protected function getToOptions()
-    {
-        if (null === $this->toOptions) {
-            $this->toOptions = Smsglobal::getRoles();
-            $this->toOptions['number'] = Smsglobal::_('Number');
-        }
-
-        return $this->toOptions;
     }
 }

@@ -77,11 +77,11 @@ class Smsglobal_SmsPage
             <form action="admin.php?page=smsglobal" method="post">
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row"><label for="id_from">From</label></th>
+                        <th scope="row"><label for="id_from"><?php echo Smsglobal::_('From') ?></label></th>
                         <td><input class="regular-text" id="id_from" name="from" type="text" value="<?php echo esc_attr($from) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_to">To</label></th>
+                        <th scope="row"><label for="id_to"><?php echo Smsglobal::_('To') ?></label></th>
                         <td><select name="to" id="id_to">
                             <?php foreach ($toOptions as $value => $label): ?>
                                 <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal::_($label)) ?></option>
@@ -90,13 +90,13 @@ class Smsglobal_SmsPage
                         <input class="regular-text" id="id_number" name="number" type="tel" value="<?php echo esc_attr($number) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_message">Message</label></th>
+                        <th scope="row"><label for="id_message"><?php echo Smsglobal::_('Message') ?></label></th>
                         <td><textarea cols="50" id="id_message" rows="10" name="message" class="large-text"><?php echo esc_html($message) ?></textarea></td>
                     </tr>
                 </table>
 
                 <p class="submit">
-                    <button class="button button-primary" type="submit">Send SMS</button>
+                    <button class="button button-primary" type="submit"><?php echo Smsglobal::_('Send SMS') ?></button>
                 </p>
             </form>
         </div>
@@ -129,10 +129,10 @@ class Smsglobal_SmsPage
         if (isset($data['from'])) {
             $from = (string) $data['from'];
             if ('' === $from) {
-                $errors['from'] = 'This field is required';
+                $errors['from'] = Smsglobal::_('This field is required');
             }
         } else {
-            $errors['from'] = 'This field is required';
+            $errors['from'] = Smsglobal::_('This field is required');
         }
 
         // To
@@ -141,23 +141,23 @@ class Smsglobal_SmsPage
 
             $toOptions = $this->getToOptions();
             if (!isset($toOptions[$to])) {
-                $errors['to'] = 'Please select an option';
+                $errors['to'] = Smsglobal::_('Please select an option');
             } elseif ('number' === $to) {
                 $to = (string) $data['number'];
 
                 if (!ctype_digit($to)) {
-                    $errors['to'] = 'Please enter a number';
+                    $errors['to'] = Smsglobal::_('Please enter a number');
                 }
             }
         } else {
-            $errors['to'] = 'This field is required';
+            $errors['to'] = Smsglobal::_('This field is required');
         }
 
         // Message
         if (isset($data['message'])) {
             $message = (string) $data['message'];
         } else {
-            $errors['message'] = 'This field is required';
+            $errors['message'] = Smsglobal::_('This field is required');
         }
 
         if (empty($errors)) {

@@ -24,14 +24,14 @@ class Smsglobal_SettingsPage
             <h2><?php echo Smsglobal::_('SMSGlobal Settings') ?></h2>
 
             <div id="smsglobal-api-key-instructions">
-                <h3>How to get your API Key</h3>
+                <h3><?php echo Smsglobal::_('How to Get Your API Key') ?></h3>
                 <ol>
-                    <li>Get an SMSGlobal MXT account</li>
-                    <li>Login to MXT</li>
-                    <li>Go to Settings</li>
-                    <li>Go to API Keys</li>
-                    <li>Create a new API Key. Give it a name like 'Wordpress'</li>
-                    <li>Copy the key and secret here</li>
+                    <li><?php echo Smsglobal::_('Get an SMSGlobal MXT account') ?></li>
+                    <li><?php echo Smsglobal::_('Login to MXT') ?></li>
+                    <li><?php echo Smsglobal::_('In the main menu, go to Tools') ?></li>
+                    <li><?php echo Smsglobal::_('In the sub menu, go to API Keys') ?></li>
+                    <li><?php echo Smsglobal::_('Create a new API Key. Give it a name like "Wordpress"') ?></li>
+                    <li><?php echo Smsglobal::_('Copy the key and secret here') ?></li>
                 </ol>
             </div>
 

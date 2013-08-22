@@ -25,7 +25,7 @@ class Smsglobal_Ecommerce
                 'display_currency_symbol' => true,
             )
         );
-        $message = 'Order #%s placed for %s';
+        $message = Smsglobal::_('Order #%s placed for %s');
         $message = sprintf($message, $logId['purchase_log_id'], $price);
 
         // Send the message

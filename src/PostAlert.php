@@ -31,9 +31,9 @@ class Smsglobal_PostAlert
     {
         $toOptions = Smsglobal::getRoles();
         ?>
-        <p><em>Post alerts</em></p>
-        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> Enabled</p>
-        <p><em>Send to</em></p>
+        <p><em><?php echo Smsglobal::_('Post Alerts') ?></em></p>
+        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> <?php echo Smsglobal::_('Enabled') ?></p>
+        <p><em><?php echo Smsglobal::_('Send To') ?></em></p>
         <p><select class="tags-input" name="smsglobal_post_alerts_to">
         <?php foreach ($toOptions as $value => $label): ?>
             <option value="<?php echo esc_attr($value) ?>"><?php echo esc_html($label) ?></option>

@@ -6,7 +6,7 @@ class Smsglobal_Shopp
         add_action('shopp_order_success', array($this, 'sendSms'));
     }
 
-    public function sendSms($Purchase)
+    public function sendSms($purchase)
     {
         if (!get_option('smsglobal_shopp_enabled')) {
             return;
@@ -15,7 +15,16 @@ class Smsglobal_Shopp
         $origin = get_option('smsglobal_shopp_origin');
         $destination = get_option('smsglobal_shopp_destination');
 
-        $message = "Customer - $Purchase->firstname $Purchase->lastname \r\n Email - $Purchase->email \r\n Destination - $Purchase->shipcity, $Purchase->shipstate, $Purchase->shipcountry \r\n Total - $$Purchase->total";
+        $message = sprintf(
+            Smsglobal::_("Customer: %s %s\nEmail: %s\nDestination: %s, %s, %s\nTotal: $%s"),
+            $purchase->firstname,
+            $purchase->lastname,
+            $purchase->email,
+            $purchase->shipcity,
+            $purchase->shipstate,
+            $purchase->shipcountry,
+            $purchase->total
+        );
 
         $rest = Smsglobal::getRestClient();
 

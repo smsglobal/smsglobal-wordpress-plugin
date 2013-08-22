@@ -18,8 +18,6 @@ class Smsglobal_ListPage
     public function getPage()
     {
         $subscribers = smsglobal_get_subscription(null, null);
-
-        $isConfigured = $this->checkConfiguration();
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
@@ -52,10 +50,10 @@ class Smsglobal_ListPage
         <table class="wp-list-table widefat plugins">
             <thead>
             <tr valign="top">
-                <th scope="row">Name</th>
-                <th scope="row">Mobile</th>
-                <th scope="row">Email</th>
-                <th scope="row">URL</th>
+                <th scope="row"><?php echo Smsglobal::_('Name') ?></th>
+                <th scope="row"><?php echo Smsglobal::_('Mobile') ?></th>
+                <th scope="row"><?php echo Smsglobal::_('Email') ?></th>
+                <th scope="row"><?php echo Smsglobal::_('URL') ?></th>
             </tr>
             </thead>
             <?php foreach ($subscribers as $subscriber): ?>
@@ -98,13 +96,4 @@ class Smsglobal_ListPage
         </div>
         <?php
     }
-
-    protected function checkConfiguration()
-    {
-        $key = get_option('smsglobal_api_key');
-        $secret = get_option('smsglobal_api_secret');
-
-        return false !== $key && false !== $secret;
-    }
-
 }
