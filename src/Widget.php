@@ -5,9 +5,9 @@ class Smsglobal_Subscription_Widget extends WP_Widget
     {
         parent::__construct(
             'smsglobal_subscription_widget',
-            Smsglobal::_('SMSGlobal Widget'),
+            Smsglobal_Utils::_('SMSGlobal Widget'),
             array(
-                'description' => Smsglobal::_('Display subscription input box so user can enter their mobile number to receive notification SMS.')
+                'description' => Smsglobal_Utils::_('Display subscription input box so user can enter their mobile number to receive notification SMS.')
             )
         );
 
@@ -29,46 +29,46 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             $verify_text = esc_attr($instance['verify_text']);
 
         } else {
-            $form_title = Smsglobal::_('SMS Subscription');
-            $name_label = Smsglobal::_('Name');
-            $mobile_label = Smsglobal::_('Mobile');
-            $email_label = Smsglobal::_('Email');
-            $url_label = Smsglobal::_('URL');
-            $code_label = Smsglobal::_('Code');
-            $submit_text = Smsglobal::_('Subscribe');
-            $verify_text = Smsglobal::_('Verify');
+            $form_title = Smsglobal_Utils::_('SMS Subscription');
+            $name_label = Smsglobal_Utils::_('Name');
+            $mobile_label = Smsglobal_Utils::_('Mobile');
+            $email_label = Smsglobal_Utils::_('Email');
+            $url_label = Smsglobal_Utils::_('URL');
+            $code_label = Smsglobal_Utils::_('Code');
+            $submit_text = Smsglobal_Utils::_('Subscribe');
+            $verify_text = Smsglobal_Utils::_('Verify');
         }
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('form_title') ?>"><?php echo Smsglobal::_('Subscription Form Title:') ?></label>
+            <label for="<?php echo $this->get_field_id('form_title') ?>"><?php echo Smsglobal_Utils::_('Subscription Form Title:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('form_title') ?>" name="<?php echo $this->get_field_name('form_title') ?>" type="text" value="<?php echo $form_title ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('name_label') ?>"><?php echo Smsglobal::_('Name Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('name_label') ?>"><?php echo Smsglobal_Utils::_('Name Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('name_label') ?>" name="<?php echo $this->get_field_name('name_label') ?>" type="text" value="<?php echo $name_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('mobile_label') ?>"><?php echo Smsglobal::_('Mobile Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('mobile_label') ?>"><?php echo Smsglobal_Utils::_('Mobile Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('mobile_label') ?>" name="<?php echo $this->get_field_name('mobile_label') ?>" type="text" value="<?php echo $mobile_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('email_label') ?>"><?php echo Smsglobal::_('Email Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('email_label') ?>"><?php echo Smsglobal_Utils::_('Email Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('email_label') ?>" name="<?php echo $this->get_field_name('email_label') ?>" type="text" value="<?php echo $email_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('url_label') ?>"><?php echo Smsglobal::_('URL Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('url_label') ?>"><?php echo Smsglobal_Utils::_('URL Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('url_label') ?>" name="<?php echo $this->get_field_name('url_label') ?>" type="text" value="<?php echo $url_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('code_label') ?>"><?php echo Smsglobal::_('Verifying Code Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('code_label') ?>"><?php echo Smsglobal_Utils::_('Verifying Code Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('code_label') ?>" name="<?php echo $this->get_field_name('code_label') ?>" type="text" value="<?php echo $code_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('submit_text') ?>"><?php echo Smsglobal::_('Submit Text:') ?></label>
+            <label for="<?php echo $this->get_field_id('submit_text') ?>"><?php echo Smsglobal_Utils::_('Submit Text:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('submit_text') ?>" name="<?php echo $this->get_field_name('submit_text') ?>" type="text" value="<?php echo $submit_text ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('verify_text') ?>"><?php echo Smsglobal::_('Verify Button Text:') ?></label>
+            <label for="<?php echo $this->get_field_id('verify_text') ?>"><?php echo Smsglobal_Utils::_('Verify Button Text:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('verify_text') ?>" name="<?php echo $this->get_field_name('verify_text') ?>" type="text" value="<?php echo $verify_text ?>" />
         </p>
         <?php
@@ -141,7 +141,7 @@ class Smsglobal_Subscription_Widget extends WP_Widget
 	}
 }
 
-function gCF_add_javascript_files()
+function smsglobal_add_javascript_files()
 {
     if (!is_admin())
     {
@@ -150,7 +150,7 @@ function gCF_add_javascript_files()
     }
 }
 
-add_action('wp_enqueue_scripts', 'gCF_add_javascript_files');
+add_action('wp_enqueue_scripts', 'smsglobal_add_javascript_files');
 
 function smsglobal_register_widgets()
 {

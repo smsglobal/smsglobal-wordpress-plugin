@@ -1,15 +1,27 @@
 <?php
 class Smsglobal_UserList
 {
+    /**
+     * Cached setting for whether post alerts are enabled
+     * @var bool
+     */
     protected $arePostAlertsEnabled;
 
-    function __construct()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
         add_action('manage_users_custom_column', array($this, 'getCustomField'), 15, 3);
-        add_filter('manage_users_columns', array($this, 'addColumn'), 15, 1);
-        add_filter('user_contactmethods', array($this, 'addField'));
+        add_filter('manage_users_columns', array($this, 'addCustomColumns'), 15, 1);
+        add_filter('user_contactmethods', array($this, 'addCustomColumns'));
     }
 
+    /**
+     * Gets whether post alerts are enabled. Caches setting for performance
+     *
+     * @return bool
+     */
     protected function arePostAlertsEnabled()
     {
         if (null === $this->arePostAlertsEnabled) {
@@ -19,37 +31,42 @@ class Smsglobal_UserList
         return $this->arePostAlertsEnabled;
     }
 
-    function addField($profileFields)
+    /**
+     * Adds custom columns for mobile number and post alerts (if enabled)
+     *
+     * @param array $profileFields
+     * @return array
+     */
+    public function addCustomColumns(array $profileFields)
     {
         // Add new fields
-        $profileFields['mobile'] = Smsglobal::_('Mobile Number');
+        $profileFields['mobile'] = Smsglobal_Utils::_('Mobile Number');
 
         if ($this->arePostAlertsEnabled()) {
-            $profileFields['smsglobal_send_post_alerts'] = Smsglobal::_('Send Post Alerts');
+            $profileFields['smsglobal_send_post_alerts'] = Smsglobal_Utils::_('Send Post Alerts');
         }
 
         return $profileFields;
     }
 
-    function addColumn($defaults)
-    {
-        $defaults['mobile'] = Smsglobal::_('Mobile Number');
-
-        if ($this->arePostAlertsEnabled()) {
-            $defaults['smsglobal_send_post_alerts'] = Smsglobal::_('Send Post Alerts');
-        }
-
-        return $defaults;
-    }
-
-    function getCustomField($value, $column, $id)
+    /**
+     * Gets the value for the custom fields:
+     * - mobile
+     * - smsglobal_send_post_alerts
+     *
+     * @param mixed $value
+     * @param string $column
+     * @param int $id
+     * @return string
+     */
+    public function getCustomField($value, $column, $id)
     {
         if ('mobile' === $column || 'smsglobal_send_post_alerts' === $column) {
-            $value = get_user_meta($id, $column);
+            $value = get_user_meta($id, $column, true);
 
             if ('smsglobal_send_post_alerts' === $column) {
                 $value = (bool) $value;
-                $value = $value ? 'Yes' : 'No';
+                $value = Smsglobal_Utils::_($value ? 'Yes' : 'No');
             }
         }
 

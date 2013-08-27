@@ -4,8 +4,9 @@ class Smsglobal_Authentication
     /**
      * The number of digits in the verification code. The code will always be
      * 1xxx - 9yyy where x = 0 and y = 9, repeated so the code length is as set
+     * @var int
      */
-    const CODE_LENGTH = 4;
+    protected $codeLength = 4;
 
     /**
      * Constructor
@@ -51,29 +52,12 @@ class Smsglobal_Authentication
 
         // Send them the code
         $code = $this->generateCode();
-        $message = sprintf(
-            Smsglobal::_('Your SMS code for %s is %s.'),
-            get_bloginfo('name'),
-            $code
-        );
+        $message = $this->getMessage($code);
 
         $code = $this->hashCode($code, $user);
         update_user_meta($user->ID, 'smsglobal_auth_code', $code);
 
-        // Send the message
-        $rest = Smsglobal::getRestClient();
-        $sms = new Smsglobal_RestApiClient_Resource_Sms();
-        $sms->setOrigin(get_option('smsglobal_auth_origin'))
-            ->setMessage($message)
-            ->setDestination($mobile);
-
-        try {
-            $sms->send($rest);
-        } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
-            foreach ($ex->getErrors() as $field => $error) {
-                echo sprintf('%s: %s', $field, $error), PHP_EOL;
-            }
-        }
+        $this->sendSms($message, $mobile);
     }
 
     /**
@@ -98,7 +82,7 @@ class Smsglobal_Authentication
 
         if ($actualCode) {
             // The user has a code but hasn't filled out the form yet. Show it
-            echo Smsglobal::renderTemplate('sms-code-form');
+            echo Smsglobal_Utils::renderTemplate('sms-code-form');
             die;
         }
     }
@@ -111,7 +95,7 @@ class Smsglobal_Authentication
     protected function generateCode()
     {
         // 1000
-        $start = pow(10, self::CODE_LENGTH - 1);
+        $start = pow(10, $this->codeLength - 1);
         // 9999
         $end = $start * 10 - 1;
 
@@ -137,5 +121,42 @@ class Smsglobal_Authentication
     {
         $user = wp_get_current_user();
         delete_user_meta($user->ID, 'smsglobal_auth_code');
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
+    protected function getMessage($code)
+    {
+        $message = sprintf(
+            Smsglobal_Utils::_('Your SMS code for %s is %s.'),
+            get_bloginfo('name'),
+            $code
+        );
+
+        return $message;
+    }
+
+    /**
+     * @param $message
+     * @param $mobile
+     */
+    protected function sendSms($message, $mobile)
+    {
+        // Send the message
+        $rest = Smsglobal_Utils::getRestClient();
+        $sms = new Smsglobal_RestApiClient_Resource_Sms();
+        $sms->setOrigin(get_option('smsglobal_auth_origin'))
+            ->setMessage($message)
+            ->setDestination($mobile);
+
+        try {
+            $sms->send($rest);
+        } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
+            foreach ($ex->getErrors() as $field => $error) {
+                echo sprintf('%s: %s', $field, $error), PHP_EOL;
+            }
+        }
     }
 }

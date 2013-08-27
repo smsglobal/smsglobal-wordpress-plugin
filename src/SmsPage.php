@@ -13,7 +13,7 @@ class Smsglobal_SmsPage
 
     public function addMenu()
     {
-        $title = Smsglobal::_('SMS');
+        $title = Smsglobal_Utils::_('SMS');
         add_menu_page($title, $title, 'manage_options', 'smsglobal', array($this, 'getPage'));
     }
 
@@ -47,14 +47,14 @@ class Smsglobal_SmsPage
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
-            <h2><?php echo Smsglobal::_('Send an SMS') ?></h2>
+            <h2><?php echo Smsglobal_Utils::_('Send an SMS') ?></h2>
             <?php
             if (!$isConfigured):
                 ?>
                 <div class="updated" id="message">
-                    <p><?php echo Smsglobal::_('Please configure your SMSGlobal settings first.') ?></p>
+                    <p><?php echo Smsglobal_Utils::_('Please configure your SMSGlobal settings first.') ?></p>
 
-                    <p><a href="options-general.php?page=smsglobal-settings"><?php echo Smsglobal::_('Configure now') ?></a></p>
+                    <p><a href="options-general.php?page=smsglobal-settings"><?php echo Smsglobal_Utils::_('Configure now') ?></a></p>
                 </div>
                 <?php
                 return;
@@ -77,26 +77,26 @@ class Smsglobal_SmsPage
             <form action="admin.php?page=smsglobal" method="post">
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row"><label for="id_from"><?php echo Smsglobal::_('From') ?></label></th>
+                        <th scope="row"><label for="id_from"><?php echo Smsglobal_Utils::_('From') ?></label></th>
                         <td><input class="regular-text" id="id_from" name="from" type="text" value="<?php echo esc_attr($from) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_to"><?php echo Smsglobal::_('To') ?></label></th>
+                        <th scope="row"><label for="id_to"><?php echo Smsglobal_Utils::_('To') ?></label></th>
                         <td><select name="to" id="id_to">
                             <?php foreach ($toOptions as $value => $label): ?>
-                                <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal::_($label)) ?></option>
+                                <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal_Utils::_($label)) ?></option>
                             <?php endforeach ?>
                         </select>
                         <input class="regular-text" id="id_number" name="number" type="tel" value="<?php echo esc_attr($number) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_message"><?php echo Smsglobal::_('Message') ?></label></th>
+                        <th scope="row"><label for="id_message"><?php echo Smsglobal_Utils::_('Message') ?></label></th>
                         <td><textarea cols="50" id="id_message" rows="10" name="message" class="large-text"><?php echo esc_html($message) ?></textarea></td>
                     </tr>
                 </table>
 
                 <p class="submit">
-                    <button class="button button-primary" type="submit"><?php echo Smsglobal::_('Send SMS') ?></button>
+                    <button class="button button-primary" type="submit"><?php echo Smsglobal_Utils::_('Send SMS') ?></button>
                 </p>
             </form>
         </div>
@@ -114,8 +114,8 @@ class Smsglobal_SmsPage
     protected function getToOptions()
     {
         if (null === $this->toOptions) {
-            $this->toOptions = Smsglobal::getRoles();
-            $this->toOptions['number'] = Smsglobal::_('Number');
+            $this->toOptions = Smsglobal_Utils::getRoles();
+            $this->toOptions['number'] = Smsglobal_Utils::_('Number');
         }
 
         return $this->toOptions;
@@ -129,10 +129,10 @@ class Smsglobal_SmsPage
         if (isset($data['from'])) {
             $from = (string) $data['from'];
             if ('' === $from) {
-                $errors['from'] = Smsglobal::_('This field is required');
+                $errors['from'] = Smsglobal_Utils::_('This field is required');
             }
         } else {
-            $errors['from'] = Smsglobal::_('This field is required');
+            $errors['from'] = Smsglobal_Utils::_('This field is required');
         }
 
         // To
@@ -141,30 +141,30 @@ class Smsglobal_SmsPage
 
             $toOptions = $this->getToOptions();
             if (!isset($toOptions[$to])) {
-                $errors['to'] = Smsglobal::_('Please select an option');
+                $errors['to'] = Smsglobal_Utils::_('Please select an option');
             } elseif ('number' === $to) {
                 $to = (string) $data['number'];
 
                 if (!ctype_digit($to)) {
-                    $errors['to'] = Smsglobal::_('Please enter a number');
+                    $errors['to'] = Smsglobal_Utils::_('Please enter a number');
                 }
             }
         } else {
-            $errors['to'] = Smsglobal::_('This field is required');
+            $errors['to'] = Smsglobal_Utils::_('This field is required');
         }
 
         // Message
         if (isset($data['message'])) {
             $message = (string) $data['message'];
         } else {
-            $errors['message'] = Smsglobal::_('This field is required');
+            $errors['message'] = Smsglobal_Utils::_('This field is required');
         }
 
         if (empty($errors)) {
             // Do the send
             $to = $this->toValueToNumbers($to);
 
-            $rest = Smsglobal::getRestClient();
+            $rest = Smsglobal_Utils::getRestClient();
 
             $sms = new Smsglobal_RestApiClient_Resource_Sms();
             $sms->setOrigin($from)
@@ -203,7 +203,6 @@ class Smsglobal_SmsPage
 
             $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
 
-            // TODO use role
             $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
             JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
             m2.meta_key = "' . $prefix . 'capabilities" AND

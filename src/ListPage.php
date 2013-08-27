@@ -10,8 +10,8 @@ class Smsglobal_ListPage
 
     public function addMenu()
     {
-        $title = Smsglobal::_('Subscribers');
-        $browser_header = Smsglobal::_('SMSGlobal Subscribers');
+        $title = Smsglobal_Utils::_('Subscribers');
+        $browser_header = Smsglobal_Utils::_('SMSGlobal Subscribers');
         add_submenu_page('smsglobal', $browser_header, $title, 'manage_options', 'smsglobal_subscribers', array($this, 'getPage'));
     }
 
@@ -21,7 +21,7 @@ class Smsglobal_ListPage
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
-            <h2><?php echo Smsglobal::_('SMS Subscribers') ?></h2>
+            <h2><?php echo Smsglobal_Utils::_('SMS Subscribers') ?></h2>
             <div>&nbsp;</div>
         <?PHP
         if ($subscribers):
@@ -50,12 +50,11 @@ class Smsglobal_ListPage
         <table class="wp-list-table widefat plugins">
             <thead>
             <tr valign="top">
-
-                <th scope="row"><?php echo Smsglobal::_('Name') ?></th>
-                <th scope="row"><?php echo Smsglobal::_('Mobile') ?></th>
-                <th scope="row"><?php echo Smsglobal::_('Email') ?></th>
-                <th scope="row"><?php echo Smsglobal::_('URL') ?></th>
-                <th scope="row"><?php echo Smsglobal::_('Verified') ?></th>
+                <th scope="row"><?php echo Smsglobal_Utils::_('Name') ?></th>
+                <th scope="row"><?php echo Smsglobal_Utils::_('Mobile') ?></th>
+                <th scope="row"><?php echo Smsglobal_Utils::_('Email') ?></th>
+                <th scope="row"><?php echo Smsglobal_Utils::_('URL') ?></th>
+                <th scope="row"><?php echo Smsglobal_Utils::_('Verified') ?></th>
             </tr>
             </thead>
             <?php foreach ($subscribers as $subscriber): ?>

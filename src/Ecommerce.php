@@ -14,10 +14,11 @@ class Smsglobal_Ecommerce
     /**
      * Sends an SMS when a new order is placed
      *
-     * @param int $logId
+     * @param array $logInfo
      */
-    public function newOrderSms($logId)
+    public function newOrderSms($logInfo)
     {
+        $logId = (int) $logInfo['purchase_log_id'];
         $price = $this->getTotalPrice($logId);
         $message = $this->getMessage($logId, $price);
 
@@ -55,7 +56,7 @@ class Smsglobal_Ecommerce
     protected function sendSms($message)
     {
         // Send the message
-        $rest = Smsglobal::getRestClient();
+        $rest = Smsglobal_Utils::getRestClient();
         $sms = new Smsglobal_RestApiClient_Resource_Sms();
 
         $origin = get_option('smsglobal_ecommerce_origin');
@@ -83,8 +84,8 @@ class Smsglobal_Ecommerce
      */
     protected function getMessage($logId, $price)
     {
-        $message = Smsglobal::_('Order #%s placed for %s');
-        $message = sprintf($message, $logId['purchase_log_id'], $price);
+        $message = Smsglobal_Utils::_('Order #%s placed for %s');
+        $message = sprintf($message, $logId, $price);
 
         return $message;
     }

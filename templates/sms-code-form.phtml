@@ -24,14 +24,14 @@ $wp_styles->done = array();
 
 login_header() ?>
     <form name="loginform" id="loginform" action="<?php echo esc_url( admin_url() ); ?>" method="post">
-        <p><?php echo Smsglobal::_('An SMS has been sent to your phone for verification. Enter the code here to login.') ?></p>
+        <p><?php echo Smsglobal_Utils::_('An SMS has been sent to your phone for verification. Enter the code here to login.') ?></p>
         <p>
-            <label for="user_login"><?php echo Smsglobal::_('SMS Code') ?><br />
+            <label for="user_login"><?php echo Smsglobal_Utils::_('SMS Code') ?><br />
                 <input type="text" name="code" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
         </p>
         <p class="submit">
             <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
-            <a href="<?php echo wp_logout_url() ?>"><?php echo Smsglobal::_('Log out') ?></a>
+            <a href="<?php echo wp_logout_url() ?>"><?php echo Smsglobal_Utils::_('Log out') ?></a>
         </p>
     </form>
 <?php login_footer();

@@ -11,8 +11,8 @@ class Smsglobal_GroupPage
 
     public function addMenu()
     {
-        $title = Smsglobal::_('Phone Book');
-        $header = Smsglobal::_('SMSGlobal Phone Book');
+        $title = Smsglobal_Utils::_('Phone Book');
+        $header = Smsglobal_Utils::_('SMSGlobal Phone Book');
         add_submenu_page('smsglobal', $header, $title, 'manage_options', 'smsglobal_groups', array($this, 'getPage'));
     }
 
@@ -30,12 +30,12 @@ class Smsglobal_GroupPage
 
     public function getPage()
     {
-        $apiClient = Smsglobal::getRestClient();
+        $apiClient = Smsglobal_Utils::getRestClient();
         $groups = $apiClient->getList('group')->objects;
         ?>
     <div class="wrap">
         <?php screen_icon() ?>
-        <h2><?php echo Smsglobal::_('SMS Group') ?></h2>
+        <h2><?php echo Smsglobal_Utils::_('SMS Group') ?></h2>
         <div>&nbsp;</div>
         <?PHP
         if ($groups):
@@ -64,10 +64,10 @@ class Smsglobal_GroupPage
             <table class="wp-list-table widefat plugins">
                 <thead>
                 <tr valign="top">
-                    <th scope="row"><?php echo Smsglobal::_('ID') ?></th>
-                    <th scope="row"><?php echo Smsglobal::_('Name') ?></th>
-                    <th scope="row"><?php echo Smsglobal::_('Keyword') ?></th>
-                    <th scope="row"><?php echo Smsglobal::_('Default Origin') ?></th>
+                    <th scope="row"><?php echo Smsglobal_Utils::_('ID') ?></th>
+                    <th scope="row"><?php echo Smsglobal_Utils::_('Name') ?></th>
+                    <th scope="row"><?php echo Smsglobal_Utils::_('Keyword') ?></th>
+                    <th scope="row"><?php echo Smsglobal_Utils::_('Default Origin') ?></th>
                 </tr>
                 </thead>
                 <?php foreach ($groups as $group): ?>
@@ -91,7 +91,7 @@ class Smsglobal_GroupPage
                 <!--                    </select>-->
                 <!--                    <input type="submit" name="" id="doaction2" class="button action" value="Apply">-->
                 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal::_('%s contact groups', count($groups))) ?></span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal_Utils::_('%s contact groups', count($groups))) ?></span>
                     <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
                     <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
                     <!--<span class="paging-input">1 of <span class="total-pages">1</span></span>-->

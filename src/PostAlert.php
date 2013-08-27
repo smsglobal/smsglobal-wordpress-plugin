@@ -1,6 +1,9 @@
 <?php
 class Smsglobal_PostAlert
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         if (get_option('smsglobal_enable_post_alerts')) {
@@ -9,31 +12,34 @@ class Smsglobal_PostAlert
         }
     }
 
+    /**
+     * Adds a meta box in the post page for customising the post alerts
+     */
     public function addMetaBox()
     {
-        global $wp_version;
-
-        $isPre27 = -1 === version_compare($wp_version, '2.7')
-            || -1 === version_compare($wp_version, '2.7.0');
+        $isPre27 = $this->isPre27();
 
         add_meta_box(
             'smsglobal-post-alerts',
-            Smsglobal::_('SMS Post Alerts'),
+            Smsglobal_Utils::_('SMS Post Alerts'),
             array($this, 'getMetaBox'),
             'post',
-            // side was added on 2.7
+            // 'side' was added on 2.7
             $isPre27 ? 'advanced' : 'side',
             'high'
         );
     }
 
+    /**
+     * Prints (!) the HTML for the meta box
+     */
     public function getMetaBox()
     {
-        $toOptions = Smsglobal::getRoles();
+        $toOptions = Smsglobal_Utils::getRoles();
         ?>
-        <p><em><?php echo Smsglobal::_('Post Alerts') ?></em></p>
-        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> <?php echo Smsglobal::_('Enabled') ?></p>
-        <p><em><?php echo Smsglobal::_('Send To') ?></em></p>
+        <p><em><?php echo Smsglobal_Utils::_('Post Alerts') ?></em></p>
+        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> <?php echo Smsglobal_Utils::_('Enabled') ?></p>
+        <p><em><?php echo Smsglobal_Utils::_('Send To') ?></em></p>
         <p><select class="tags-input" name="smsglobal_post_alerts_to">
         <?php foreach ($toOptions as $value => $label): ?>
             <option value="<?php echo esc_attr($value) ?>"><?php echo esc_html($label) ?></option>
@@ -42,6 +48,11 @@ class Smsglobal_PostAlert
         <?php
     }
 
+    /**
+     * Sends the SMS post alert for a given post ID
+     *
+     * @param int $id
+     */
     public function sendPostAlert($id)
     {
         if (get_option('smsglobal_enable_post_alerts')
@@ -59,16 +70,11 @@ class Smsglobal_PostAlert
 
             $post = get_post($id);
 
-            $message = sprintf(
-                Smsglobal::_('New post at %s: %s See it at %s'),
-                get_bloginfo('name'),
-                get_the_title($post),
-                get_permalink($post->ID)
-            );
+            $message = $this->getMesage($post);
 
             $origin = get_option('smsglobal_post_alerts_origin');
 
-            $rest = Smsglobal::getRestClient();
+            $rest = Smsglobal_Utils::getRestClient();
 
             // Send the SMS
             $sms = new Smsglobal_RestApiClient_Resource_Sms();
@@ -88,10 +94,15 @@ class Smsglobal_PostAlert
         }
     }
 
+    /**
+     * Gets destination numbers for a given role
+     *
+     * @param string $role
+     * @return array
+     */
     protected function getDestinationNumbers($role)
     {
         global $wpdb;
-
 
         $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
 
@@ -110,5 +121,34 @@ class Smsglobal_PostAlert
         $query .= ' WHERE m1.meta_key = "mobile"';
 
         return $wpdb->get_col($query, 0);
+    }
+
+    /**
+     * Determines whether the WordPress version is < 2.7
+     *
+     * @return bool
+     */
+    protected function isPre27()
+    {
+        global $wp_version;
+
+        return -1 === version_compare($wp_version, '2.7')
+            && -1 === version_compare($wp_version, '2.7.0');
+    }
+
+    /**
+     * @param WP_Post $post
+     * @return string
+     */
+    protected function getMessage(WP_Post $post)
+    {
+        $message = sprintf(
+            Smsglobal_Utils::_('New post at %s: %s See it at %s'),
+            get_bloginfo('name'),
+            get_the_title($post),
+            get_permalink($post->ID)
+        );
+
+        return $message;
     }
 }

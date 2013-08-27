@@ -1,11 +1,13 @@
 <?php
-class Smsglobal
+class Smsglobal_Utils
 {
     protected static $roles;
 
     protected static $restClient;
 
     protected static $templatePath;
+
+    protected static $mockClasses = array();
 
     public static function getRestClient()
     {
@@ -58,6 +60,47 @@ class Smsglobal
         ob_end_clean();
 
         return $template;
+    }
+
+    /**
+     * Creates a class with public access to every method
+     *
+     * @param string $class
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createMockClass($class)
+    {
+        if (null === self::$mockClasses) {
+            self::$mockClasses = array();
+        }
+
+        if (!isset(self::$mockClasses[$class])) {
+            $mockClass = $class . 'Mock';
+
+            if (class_exists($mockClass)) {
+                throw new Exception('Mock class already exists: ' . $mockClass);
+            }
+
+            $code = sprintf(
+                'class %s extends %s
+{
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array(parent, $name), $args);
+    }
+}
+',
+                $mockClass,
+                $class
+            );
+
+            eval($code);
+
+            self::$mockClasses[$class] = $mockClass;
+        }
+
+        return new self::$mockClasses[$class];
     }
 
     public static function getVerificationCode($mobile) {
