@@ -36,6 +36,8 @@ rm .gitignore
 rm .gitmodules
 rm deploy
 rm README.md
+rm -rf tests
+rm -rf wordpress-tests
 
 # Export git -> SVN
 echo "Exporting the HEAD of master from git to the trunk of SVN"
