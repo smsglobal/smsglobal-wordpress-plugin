@@ -11,6 +11,5 @@ if [ ! -d "wordpress-tests/wordpress/wp-content/plugins/smsglobal" ]; then
     ln -s `pwd` wordpress-tests/wordpress/wp-content/plugins/smsglobal
 fi
 
-composer install
 cp wp-tests-config.php wordpress-tests/wp-tests-config.php
 cd wordpress-tests/wordpress/wp-content/plugins/smsglobal && phpunit
