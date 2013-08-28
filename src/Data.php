@@ -15,7 +15,7 @@ function smsglobal_install() {
         mobile VARCHAR(20) NOT NULL,
         email VARCHAR(100) DEFAULT '' NOT NULL,
         url VARCHAR(100) DEFAULT '' NOT NULL,
-        verified TINYINT(1) DEFAULT 0 NOT NULL
+        verified TINYINT(1) DEFAULT 0 NOT NULL,
         UNIQUE KEY id (id)
     );";
 
@@ -27,7 +27,8 @@ function smsglobal_install() {
         activated_time datetime DEFAULT '0000-00-00 00:00:00' NULL,
         code tinytext NOT NULL,
         mobile VARCHAR(20) NOT NULL,
-        UNIQUE KEY id (id)
+        UNIQUE KEY id (id),
+        UNIQUE KEY mobile (mobile)
     );";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -40,16 +41,17 @@ function smsglobal_install_data() {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_subscription";
 
+    $author_origin = get_option('auth_origin');
     $rows_affected = $wpdb->insert( $table_name,
         array(
             'time' => current_time('mysql'),
-            'name' => 'IAmWillingToReceiveSpamSMS',
-            'mobile' => '0481267486',
+            'name' => 'Author Origin',
+            'mobile' => $author_origin,
         )
     );
 }
 
-function smsglobal_insert_subscription($name, $mobile, $url, $email) {
+function smsglobal_insert_subscription($name, $mobile, $url = null, $email = null) {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_subscription";
 
@@ -105,17 +107,13 @@ function smsglobal_get_subscription($name = null, $mobile = null) {
     return $wpdb->get_results($query);
 }
 
+
 function smsglobal_insert_verification($code, $mobile) {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_verification";
 
-    $rows_affected = $wpdb->insert( $table_name,
-        array(
-            'created_time' => current_time('mysql'),
-            'mobile' => $mobile,
-            'code' => $code
-        )
-    );
+    $sql = "INSERT INTO $table_name (created_time, mobile, code) VALUES ('".current_time('mysql')."', '$mobile', '$code') ON DUPLICATE KEY UPDATE created_time = '". current_time('mysql')."', code = '$code'";
+    $wpdb->query($sql);
 }
 
 function smsglobal_verify($code, $mobile) {
