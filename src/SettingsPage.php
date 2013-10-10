@@ -11,7 +11,7 @@ class Smsglobal_SettingsPage
 
     public function addSettingsPage()
     {
-        $title = Smsglobal::_('SMSGlobal');
+        $title = Smsglobal_Utils::_('SMSGlobal');
         add_options_page($title, $title, 'manage_options',
             'smsglobal-settings', array($this, 'createAdminPage'));
     }
@@ -21,17 +21,17 @@ class Smsglobal_SettingsPage
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
-            <h2><?php echo Smsglobal::_('SMSGlobal Settings') ?></h2>
+            <h2><?php echo Smsglobal_Utils::_('SMSGlobal Settings') ?></h2>
 
             <div id="smsglobal-api-key-instructions">
-                <h3><?php echo Smsglobal::_('How to Get Your API Key') ?></h3>
+                <h3><?php echo Smsglobal_Utils::_('How to Get Your API Key') ?></h3>
                 <ol>
-                    <li><?php echo Smsglobal::_('Get an SMSGlobal MXT account') ?></li>
-                    <li><?php echo Smsglobal::_('Login to MXT') ?></li>
-                    <li><?php echo Smsglobal::_('In the main menu, go to Tools') ?></li>
-                    <li><?php echo Smsglobal::_('In the sub menu, go to API Keys') ?></li>
-                    <li><?php echo Smsglobal::_('Create a new API Key. Give it a name like "Wordpress"') ?></li>
-                    <li><?php echo Smsglobal::_('Copy the key and secret here') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('Get an SMSGlobal MXT account') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('Login to MXT') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('In the main menu, go to Tools') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('In the sub menu, go to API Keys') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('Create a new API Key. Give it a name like "Wordpress"') ?></li>
+                    <li><?php echo Smsglobal_Utils::_('Copy the key and secret here') ?></li>
                 </ol>
             </div>
 
@@ -89,14 +89,14 @@ class Smsglobal_SettingsPage
 
         add_settings_section(
             'smsglobal_settings_api_key',
-            Smsglobal::_('API Key Settings'),
+            Smsglobal_Utils::_('API Key Settings'),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'api_key',
-            Smsglobal::_('API Key'),
+            Smsglobal_Utils::_('API Key'),
             array($this, 'getApiKeyHtml'),
             'smsglobal',
             'smsglobal_settings_api_key'
@@ -104,7 +104,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'api_secret',
-            Smsglobal::_('API Secret'),
+            Smsglobal_Utils::_('API Secret'),
             array($this, 'getApiSecretHtml'),
             'smsglobal',
             'smsglobal_settings_api_key'
@@ -112,14 +112,14 @@ class Smsglobal_SettingsPage
 
         add_settings_section(
             'smsglobal_settings_auth',
-            Smsglobal::_('2 Factor Authentication'),
+            Smsglobal_Utils::_('2 Factor Authentication'),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'enable_auth',
-            Smsglobal::_('Require SMS code for admin panel'),
+            Smsglobal_Utils::_('Require SMS code for admin panel'),
             array($this, 'getEnableAuthHtml'),
             'smsglobal',
             'smsglobal_settings_auth'
@@ -127,7 +127,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'auth_origin',
-            Smsglobal::_('SMS comes from'),
+            Smsglobal_Utils::_('SMS comes from'),
             array($this, 'getAuthOriginHtml'),
             'smsglobal',
             'smsglobal_settings_auth'
@@ -135,14 +135,14 @@ class Smsglobal_SettingsPage
 
         add_settings_section(
             'smsglobal_settings_post_alerts',
-            Smsglobal::_('Post Alerts'),
+            Smsglobal_Utils::_('Post Alerts'),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'enable_post_alerts',
-            Smsglobal::_('Post alerts'),
+            Smsglobal_Utils::_('Post alerts'),
             array($this, 'getEnablePostAlertsHtml'),
             'smsglobal',
             'smsglobal_settings_post_alerts'
@@ -150,7 +150,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'post_alerts_origin',
-            Smsglobal::_('Send SMS from'),
+            Smsglobal_Utils::_('Send SMS from'),
             array($this, 'getPostAlertsOriginHtml'),
             'smsglobal',
             'smsglobal_settings_post_alerts'
@@ -158,14 +158,14 @@ class Smsglobal_SettingsPage
 
         add_settings_section(
             'smsglobal_settings_shopp',
-            Smsglobal::_('Shopp Integration'),
+            Smsglobal_Utils::_('Shopp Integration'),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'shopp_enabled',
-            Smsglobal::_('Order alerts'),
+            Smsglobal_Utils::_('Order alerts'),
             array($this, 'getShoppEnabledHtml'),
             'smsglobal',
             'smsglobal_settings_shopp'
@@ -173,7 +173,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'shopp_origin',
-            Smsglobal::_('SMS comes from'),
+            Smsglobal_Utils::_('SMS comes from'),
             array($this, 'getShoppOriginHtml'),
             'smsglobal',
             'smsglobal_settings_shopp'
@@ -181,7 +181,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'shopp_destination',
-            Smsglobal::_('SMS goes to'),
+            Smsglobal_Utils::_('SMS goes to'),
             array($this, 'getShoppDestinationHtml'),
             'smsglobal',
             'smsglobal_settings_shopp'
@@ -189,14 +189,14 @@ class Smsglobal_SettingsPage
 
         add_settings_section(
             'smsglobal_settings_ecommerce',
-            Smsglobal::_('e-Commerce Integration'),
+            Smsglobal_Utils::_('e-Commerce Integration'),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'ecommerce_enabled',
-            Smsglobal::_('Order alerts'),
+            Smsglobal_Utils::_('Order alerts'),
             array($this, 'getEcommerceEnabledHtml'),
             'smsglobal',
             'smsglobal_settings_ecommerce'
@@ -204,7 +204,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'ecommerce_origin',
-            Smsglobal::_('SMS comes from'),
+            Smsglobal_Utils::_('SMS comes from'),
             array($this, 'getEcommerceOriginHtml'),
             'smsglobal',
             'smsglobal_settings_ecommerce'
@@ -212,7 +212,7 @@ class Smsglobal_SettingsPage
 
         add_settings_field(
             'ecommerce_destination',
-            Smsglobal::_('SMS goes to'),
+            Smsglobal_Utils::_('SMS goes to'),
             array($this, 'getEcommerceDestinationHtml'),
             'smsglobal',
             'smsglobal_settings_ecommerce'
@@ -391,7 +391,7 @@ class Smsglobal_SettingsPage
         ?>
         <label for="smsglobal-auth-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-auth-enabled" name="array_key[enable_auth]" value="1">
-        <?php echo Smsglobal::_('Enable') ?>
+        <?php echo Smsglobal_Utils::_('Enable') ?>
         </label><?php
     }
 
@@ -405,7 +405,7 @@ class Smsglobal_SettingsPage
         $checked = (bool) get_option('smsglobal_enable_post_alerts');
         ?><label for="smsglobal-enable-post-alerts">
             <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-enable-post-alerts" name="array_key[enable_post_alerts]" value="1">
-            <?php echo Smsglobal::_('Enable') ?>
+            <?php echo Smsglobal_Utils::_('Enable') ?>
         </label><?php
     }
 
@@ -420,7 +420,7 @@ class Smsglobal_SettingsPage
         ?>
         <label for="smsglobal-shopp-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-shopp-enabled" name="array_key[shopp_enabled]" value="1">
-        <?php echo Smsglobal::_('Enable') ?>
+        <?php echo Smsglobal_Utils::_('Enable') ?>
         </label><?php
     }
 
@@ -440,7 +440,7 @@ class Smsglobal_SettingsPage
         ?>
         <label for="smsglobal-ecommerce-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-ecommerce-enabled" name="array_key[ecommerce_enabled]" value="1">
-        <?php echo Smsglobal::_('Enable') ?>
+        <?php echo Smsglobal_Utils::_('Enable') ?>
         </label><?php
     }
 
