@@ -16,6 +16,10 @@ class Smsglobal_Subscription_Widget extends WP_Widget
         }
     }
 
+    function css() {
+        echo "";
+    }
+
     function form($instance)
     {
         if ($instance) {
