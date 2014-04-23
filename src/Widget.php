@@ -101,11 +101,12 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             echo esc_html($instance['form_title']);
             echo $args['after_title'];
         }
-?>
+        $action_url = plugin_dir_url(__FILE__).'../scripts';
+        ?>
 
     <div id="smsglobal_alertmessage"></div>
     <div id="subscription_wrapper">
-        <form class="" id="subscription_form" method="POST" action="<?php echo get_option('siteurl'); ?>/wp-content/plugins/smsglobal/scripts/subscriptionSave.php">
+        <form class="" id="subscription_form" method="POST" action="<?php echo $action_url; ?>/subscriptionSave.php">
         <div>
             <label for="name"><?php if ( ! empty( $instance['name_label'] ) ) echo $instance['name_label']; ?></label>
             <input class="widefat" id="name" name="name" type="text" value="" />
@@ -126,7 +127,7 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
         </div>
         </form>
-        <form class="" id="subscription_verification_form" method="POST" action="<?php echo get_option('siteurl'); ?>/wp-content/plugins/smsglobal/scripts/subscriptionVerification.php">
+        <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php">
             <div>
                 <label for="name"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label']; ?></label>
                 <input class="widefat" id="mobile_verify" name="mobile" type="text" value="" />
