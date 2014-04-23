@@ -1,17 +1,16 @@
 <?php
 session_start();
 
-$abspath = dirname(__FILE__);
-$abspath_1 = str_replace('wp-content/plugins/smsglobal/scripts', '', $abspath);
-$abspath_1 = str_replace('wp-content\plugins\smsglobal\scripts', '', $abspath_1);
+$abspath = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 
-require_once($abspath_1 .'wp-config.php');
-require_once($abspath_1 .'wp-includes/general-template.php');
+require_once($abspath .'/wp-config.php');
+require_once($abspath .'/wp-load.php');
+require_once($abspath .'/wp-includes/general-template.php');
 
 $dir = dirname(__FILE__);
+$pluginPath = plugin_dir_url(__FILE__);
 
 require $dir . '/../src/require.php';
-//require $dir . '/../vendor/autoload.php';
 
 $name = $_POST['name'];
 $mobile = $_POST['mobile'];
@@ -25,12 +24,12 @@ if( !empty($name) && !empty($mobile) )
 
     if (empty($errors)) {
 
-        $rest = Smsglobal::getRestClient();
+        $rest = Smsglobal_Utils::getRestClient();
         $from = get_bloginfo('name');
         if($from == '')
             $from = 'pool:1';
         $from = 'pool:1';
-        $verificationCode = Smsglobal::getVerificationCode($mobile);
+        $verificationCode = Smsglobal_Utils::getVerificationCode($mobile);
         smsglobal_insert_verification($verificationCode, $mobile);
         $sms = new Smsglobal_RestApiClient_Resource_Sms();
         $sms->setOrigin($from)

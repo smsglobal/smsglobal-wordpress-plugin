@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-$abspath = dirname(__FILE__);
-$abspath_1 = str_replace('wp-content/plugins/smsglobal/scripts', '', $abspath);
-$abspath_1 = str_replace('wp-content\plugins\smsglobal\scripts', '', $abspath_1);
+$abspath = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 
-require_once($abspath_1 .'wp-config.php');
+require_once($abspath .'/wp-config.php');
+require_once($abspath .'/wp-load.php');
+
 $dir = dirname(__FILE__);
 
 $code = $_POST['code'];
