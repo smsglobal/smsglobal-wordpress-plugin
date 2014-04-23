@@ -18,6 +18,7 @@ class Smsglobal_ListPage
     public function getPage()
     {
         $subscribers = smsglobal_get_subscription(null, null);
+        $mediaUrl = plugin_dir_url(__FILE__).'../assets';
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
@@ -63,7 +64,7 @@ class Smsglobal_ListPage
                     <td class="manage-column"><?php echo $subscriber->mobile; ?></td>
                     <td class="manage-column"><?php echo $subscriber->email; ?></td>
                     <td class="manage-column"><?php echo $subscriber->url; ?></td>
-                    <td class="manage-column"><?php if($subscriber->verified): echo "<img src='".get_option('siteurl').'/wp-content/plugins/smsglobal/assets/tick.png'."' width='20' />"; endif;?></td>
+                    <td class="manage-column"><?php if($subscriber->verified): echo "<img src='{$mediaUrl}/tick.png' width='20' />"; endif;?></td>
                 </tr>
             <?php endforeach ?>
         </table>
