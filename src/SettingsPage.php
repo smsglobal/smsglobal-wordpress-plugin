@@ -64,6 +64,9 @@ class Smsglobal_SettingsPage
             array($this, 'saveEnableAuth'));
 
         register_setting('smsglobal_option_group', 'array_key',
+            array($this, 'saveAuthOrigin'));
+
+        register_setting('smsglobal_option_group', 'array_key',
             array($this, 'saveEnablePostAlerts'));
 
         register_setting('smsglobal_option_group', 'array_key',
