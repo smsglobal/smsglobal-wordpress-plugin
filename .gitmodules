@@ -1,3 +1,0 @@
-[submodule "vendor/rest-api-client-php-5.2"]
-	path = vendor/rest-api-client-php-5.2
-	url = https://github.com/smsglobal/rest-api-client-php-5.2
