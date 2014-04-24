@@ -1,0 +1,32 @@
+{
+    "name": "smsglobal/smsglobal-wordpress-plugin",
+    "description": "Wordpress plugin for SMSGlobal",
+    "keywords": ["wordpress", "plugin", "smsglobal", "sms"],
+    "homepage": "http://smsglobal.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SMSGlobal",
+            "email": "support@smsglobal.com",
+            "homepage": "http://smsglobal.com"
+        }
+    ],
+    "type": "wordpress-plugin",
+    "repositories": {
+        "smsglobal-php-rest-api": {
+            "type": "package",
+            "package": {
+                "name": "smsglobal/rest-api-client-php-5.2",
+                "source": {
+                    "url": "https://github.com/smsglobal/rest-api-client-php-5.2",
+                    "type": "git"
+                }
+            }
+        }
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "composer/installers": "v1.0.6",
+        "smsglobal/rest-api-client-php-5.2": "*"
+    }
+}
