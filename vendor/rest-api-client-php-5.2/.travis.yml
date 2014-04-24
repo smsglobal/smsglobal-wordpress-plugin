@@ -1,0 +1,4 @@
+language: php
+php:
+  - "5.2"
+before_script: phpenv config-add .travis.ini
