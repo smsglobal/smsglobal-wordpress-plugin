@@ -43,6 +43,7 @@ class Smsglobal_Utils
             }
         }
 
+        self::$roles['sms'] = 'SMS Subscribers';
         return self::$roles;
     }
 

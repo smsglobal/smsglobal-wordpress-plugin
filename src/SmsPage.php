@@ -171,6 +171,8 @@ class Smsglobal_SmsPage
                 ->setMessage($message);
 
             foreach ($to as $destination) {
+                if(!$destination) continue;
+
                 try {
                     $sms->setDestination($destination)
                         ->send($rest);
@@ -193,7 +195,12 @@ class Smsglobal_SmsPage
             $query = 'SELECT meta_value FROM ' . $wpdb->usermeta . '
             WHERE meta_key = "mobile"';
 
-            return $wpdb->get_col($query, 0);
+            $sms_subscribers = smsglobal_get_subscription(null, null, true);
+            $all = $wpdb->get_col($query, 0);
+
+            return array_merge($sms_subscribers, $all);
+        } elseif ('sms' === $to) {
+            return smsglobal_get_subscription(null, null, true);
         } elseif (ctype_digit($to)) {
             // It's a number
             return array($to);

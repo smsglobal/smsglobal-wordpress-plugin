@@ -93,18 +93,18 @@ function smsglobal_mark_subscription_verified($mobile) {
 }
 
 
-function smsglobal_get_subscription($name = null, $mobile = null) {
+function smsglobal_get_subscription($name = null, $mobile = null, $mobileOnly = false) {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_subscription";
 
-    $query = "SELECT * FROM $table_name";
+    $query = $mobileOnly ? "SELECT mobile FROM $table_name" : "SELECT * FROM $table_name";
     $query .= ($name != null) ? " WHERE (`name` LIKE '%$name%' OR `name` LIKE '%$name%' OR `name` LIKE '%$name%') " : "";
     if ($mobile != null) {
         $query .= $name != null ? " AND " : " WHERE ";
         $query .= " (`name` LIKE '%$name%' OR `name` LIKE '%$name%' OR `name` LIKE '%$name%') ";
     }
     $query .= " ORDER BY `time` DESC";
-    return $wpdb->get_results($query);
+    return $mobileOnly ? $wpdb->get_col($query) : $wpdb->get_results($query);
 }
 
 

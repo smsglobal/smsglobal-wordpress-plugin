@@ -70,7 +70,7 @@ class Smsglobal_PostAlert
 
             $post = get_post($id);
 
-            $message = $this->getMesage($post);
+            $message = $this->getMessage($post);
 
             $origin = get_option('smsglobal_post_alerts_origin');
 
@@ -82,6 +82,8 @@ class Smsglobal_PostAlert
                 ->setMessage($message);
 
             foreach ($users as $msisdn) {
+                if(!$msisdn) continue;
+
                 try {
                     $sms->setDestination($msisdn)
                         ->send($rest);
@@ -104,23 +106,35 @@ class Smsglobal_PostAlert
     {
         global $wpdb;
 
-        $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
+        if($role == 'sms') {
+            return smsglobal_get_subscription(null, null, true);
+        } else {
+            $prefix = $wpdb->get_blog_prefix(get_current_blog_id());
 
-        $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
+            $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
             JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
             m2.meta_key = "smsglobal_send_post_alerts" AND m2.meta_value = "1")';
 
-        if ('all' !== $role) {
-            $query .= ' JOIN ' . $wpdb->usermeta . ' m3 ON (m1.user_id = m3.user_id AND
+            if ('all' !== $role) {
+                $query .= ' JOIN ' . $wpdb->usermeta . ' m3 ON (m1.user_id = m3.user_id AND
                 m3.meta_key = "' . $prefix . 'capabilities" AND
                 CAST(m3.meta_value AS CHAR) LIKE "%%\\"%s\\"%%")';
 
-            $query = sprintf($query, $wpdb->_real_escape($role));
+                $query = sprintf($query, $wpdb->_real_escape($role));
+
+
+                $query .= ' WHERE m1.meta_key = "mobile"';
+
+                return $wpdb->get_col($query, 0);
+            } else {
+                $query .= ' WHERE m1.meta_key = "mobile"';
+
+                $all = $wpdb->get_col($query, 0);
+                $sms_subscribers = smsglobal_get_subscription(null, null, true);
+                return array_merge($all, $sms_subscribers);
+            }
+
         }
-
-        $query .= ' WHERE m1.meta_key = "mobile"';
-
-        return $wpdb->get_col($query, 0);
     }
 
     /**
