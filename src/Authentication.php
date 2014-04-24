@@ -25,17 +25,15 @@ class Smsglobal_Authentication
         }
 
         add_action('clear_auth_cookie', array($this, 'clearCode'));
-        add_action('wp_login', array($this, 'sendCode'), 10, 2);
         add_action('admin_init', array($this, 'handleAuth'));
     }
 
     /**
      * Sends the login code to the user if they have a mobile number set
      *
-     * @param         $wp_login
      * @param WP_User $user
      */
-    public function sendCode($wp_login, WP_User $user)
+    public function sendCode(WP_User $user)
     {
         $mobile = get_user_meta($user->ID, 'mobile', true);
 
