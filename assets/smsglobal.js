@@ -2,7 +2,6 @@ jQuery(function($) {
     $("#subscription_verification_form").hide();
     $("#subscription_form").submit(function(e) {
 
-        var _e = $("#email");
         var _n = $("#name");
         var _m = $("#mobile");
 
@@ -10,19 +9,6 @@ jQuery(function($) {
         {
             $('#smsglobal_alertmessage').html("Please enter your full name.");
             _n.focus();
-            return false;
-        }
-        else if(_e.val() =="")
-        {
-            $('#smsglobal_alertmessage').html("Please enter your email address.");
-            _e.focus();
-            return false;
-        }
-        else if(_e.val()!="" && (_e.val().indexOf("@",0)==-1 || _e.val().indexOf(".",0)==-1))
-        {
-            $('#smsglobal_alertmessage').html("Please enter a valid email address.");
-            _e.focus();
-            _e.select();
             return false;
         }
         else if(_m.val()=="")
