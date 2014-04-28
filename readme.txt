@@ -38,7 +38,7 @@ Other features include:
 
 = Do I need an SMSGlobal account to send SMS? =
 
-Yes, you must register for an account at SMSGlobal to send the SMS through.
+Yes, you must register for an account at SMSGlobal to send the SMS through (http://smsglobal.com/sign-up/).
 
 == Changelog ==
 
@@ -48,7 +48,6 @@ Yes, you must register for an account at SMSGlobal to send the SMS through.
 = 2.0 =
 * Re-written from the ground up using SMSGlobal's new REST API
 * 2-factor authentication
-* SMSGlobal phonebook integration
 * Subscription widget and shortcode `[smsglobal]`
 * SMS post alerts with post title & link
 * Integration with WP e-Commerce
