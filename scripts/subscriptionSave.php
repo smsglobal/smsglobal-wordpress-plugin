@@ -27,8 +27,10 @@ if( !empty($name) && !empty($mobile) )
         $rest = Smsglobal_Utils::getRestClient();
         $from = get_bloginfo('name');
         if($from == '')
+            $from = get_option('smsglobal_auth_origin');
+        if($from == '')
             $from = 'pool:1';
-        $from = 'pool:1';
+
         $verificationCode = Smsglobal_Utils::getVerificationCode($mobile);
         smsglobal_insert_verification($verificationCode, $mobile);
         $sms = new Smsglobal_RestApiClient_Resource_Sms();
