@@ -107,7 +107,7 @@ class Smsglobal_Utils
     public static function getVerificationCode($mobile) {
         $md5 = md5($mobile);
         $base64 = base64_encode($md5);
-        return substr($base64, 2, 8);
+        return substr($base64, 2, 4);
 
     }
 }
