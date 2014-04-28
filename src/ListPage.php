@@ -54,7 +54,6 @@ class Smsglobal_ListPage
                 <th scope="row"><?php echo Smsglobal_Utils::_('Name') ?></th>
                 <th scope="row"><?php echo Smsglobal_Utils::_('Mobile') ?></th>
                 <th scope="row"><?php echo Smsglobal_Utils::_('Email') ?></th>
-                <th scope="row"><?php echo Smsglobal_Utils::_('URL') ?></th>
                 <th scope="row"><?php echo Smsglobal_Utils::_('Verified') ?></th>
             </tr>
             </thead>
@@ -63,7 +62,6 @@ class Smsglobal_ListPage
                     <td class="manage-column"><?php echo $subscriber->name; ?></td>
                     <td class="manage-column"><?php echo $subscriber->mobile; ?></td>
                     <td class="manage-column"><?php echo $subscriber->email; ?></td>
-                    <td class="manage-column"><?php echo $subscriber->url; ?></td>
                     <td class="manage-column"><?php if($subscriber->verified): echo "<img src='{$mediaUrl}/tick.png' width='20' />"; endif;?></td>
                 </tr>
             <?php endforeach ?>

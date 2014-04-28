@@ -26,8 +26,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             $form_title = esc_attr($instance['form_title']);
             $name_label = esc_attr($instance['name_label']);
             $mobile_label = esc_attr($instance['mobile_label']);
-            $email_label = esc_attr($instance['email_label']);
-            $url_label = esc_attr($instance['url_label']);
             $code_label = esc_attr($instance['code_label']);
             $submit_text = esc_attr($instance['submit_text']);
             $verify_text = esc_attr($instance['verify_text']);
@@ -36,8 +34,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             $form_title = Smsglobal_Utils::_('SMS Subscription');
             $name_label = Smsglobal_Utils::_('Name');
             $mobile_label = Smsglobal_Utils::_('Mobile');
-            $email_label = Smsglobal_Utils::_('Email');
-            $url_label = Smsglobal_Utils::_('URL');
             $code_label = Smsglobal_Utils::_('Code');
             $submit_text = Smsglobal_Utils::_('Subscribe');
             $verify_text = Smsglobal_Utils::_('Verify');
@@ -54,14 +50,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
         <p>
             <label for="<?php echo $this->get_field_id('mobile_label') ?>"><?php echo Smsglobal_Utils::_('Mobile Label:') ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('mobile_label') ?>" name="<?php echo $this->get_field_name('mobile_label') ?>" type="text" value="<?php echo $mobile_label ?>" />
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('email_label') ?>"><?php echo Smsglobal_Utils::_('Email Label:') ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('email_label') ?>" name="<?php echo $this->get_field_name('email_label') ?>" type="text" value="<?php echo $email_label ?>" />
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('url_label') ?>"><?php echo Smsglobal_Utils::_('URL Label:') ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('url_label') ?>" name="<?php echo $this->get_field_name('url_label') ?>" type="text" value="<?php echo $url_label ?>" />
         </p>
         <p>
             <label for="<?php echo $this->get_field_id('code_label') ?>"><?php echo Smsglobal_Utils::_('Verifying Code Label:') ?></label>
@@ -83,8 +71,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
         $instance['form_title'] = strip_tags($new_instance['form_title']);
         $instance['name_label'] = strip_tags($new_instance['name_label']);
         $instance['mobile_label'] = strip_tags($new_instance['mobile_label']);
-        $instance['email_label'] = strip_tags($new_instance['email_label']);
-        $instance['url_label'] = strip_tags($new_instance['url_label']);
         $instance['code_label'] = strip_tags($new_instance['code_label']);
         $instance['submit_text'] = strip_tags($new_instance['submit_text']);
         $instance['verify_text'] = strip_tags($new_instance['verify_text']);
@@ -116,17 +102,10 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             <input class="widefat" id="mobile" name="mobile" type="text" value="" />
         </div>
         <div>
-            <label for="email"><?php if ( ! empty( $instance['email_label'] ) ) echo $instance['email_label']; ?></label>
-            <input class="widefat" id="email" name="email" type="text" value="" />
-        </div>
-        <div>
-            <label for="url"><?php if ( ! empty( $instance['url_label'] ) ) echo $instance['url_label']; ?></label>
-            <input class="widefat" id="url" name="url" type="text" value="" />
-        </div>
-        <div>
             <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
         </div>
         </form>
+        <br/>
         <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php">
             <div>
                 <label for="name"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label']; ?></label>
@@ -150,8 +129,9 @@ function smsglobal_add_javascript_files()
 {
     if (!is_admin())
     {
-        wp_enqueue_style( 'smsglobal', get_option('siteurl').'/wp-content/plugins/smsglobal/assets/smsglobal.css');
-        wp_enqueue_script( 'smsglobal', get_option('siteurl').'/wp-content/plugins/smsglobal/assets/smsglobal.js',  array('jquery'));
+        $assets_url = plugin_dir_url(__FILE__).'../assets';
+        wp_enqueue_style( 'smsglobal', $assets_url."/smsglobal.css");
+        wp_enqueue_script( 'smsglobal', $assets_url."/smsglobal.js",  array('jquery'));
     }
 }
 
