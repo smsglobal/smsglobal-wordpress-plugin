@@ -120,8 +120,11 @@ function smsglobal_verify($code, $mobile) {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_verification";
 
-    $rows_affected = $wpdb->get_results(
-        "SELECT * FROM $table_name WHERE `mobile` = '$mobile' AND `code`= '$code' LIMIT 1"
-    );
+    $query = "SELECT * FROM $table_name WHERE `code`= '$code'";
+    if($mobile)
+        $query = " AND `mobile` = '$mobile'";
+    $query = " LIMIT 1";
+
+    $rows_affected = $wpdb->get_results($query);
     return count($rows_affected) > 0;
 }
