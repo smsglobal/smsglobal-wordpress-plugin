@@ -39,6 +39,7 @@ class Smsglobal_RestApiClient_RestApiClient
     /**
      * Array of schema for each resource
      * @var array
+     *
      */
     protected $schema;
     /**
@@ -342,7 +343,7 @@ class Smsglobal_RestApiClient_RestApiClient
     {
         $class = sprintf('%s\\Resource\\%s', 'Smsglobal_RestApiClient', $resource);
         $schema = $this->getSchema();
-        foreach ($schema[$resource] as $name => $field) {
+        foreach ($schema[strtolower($resource)] as $name => $field) {
             $data->name = $this->convertFieldValue($data->name, $field->type, $name);
         }
         return new ${'_value_52141bc45cb92' . !($_value_52141bc45cb92 = is_string($class) ? str_replace('\\', '_', $class) : $class)}($data);
