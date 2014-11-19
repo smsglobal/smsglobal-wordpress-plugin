@@ -110,4 +110,13 @@ class Smsglobal_Utils
         return substr($base64, 2, 4);
 
     }
+
+    public static function getPluginVersion($pluginFolderFile) {
+        if ( ! function_exists( 'get_plugin_data' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        }
+
+        $pluginData = get_plugin_data( WP_PLUGIN_DIR . '/' . $pluginFolderFile );
+        return $pluginData['Version'];
+    }
 }

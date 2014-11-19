@@ -91,7 +91,7 @@ class Smsglobal_GroupPage
                 <!--                    </select>-->
                 <!--                    <input type="submit" name="" id="doaction2" class="button action" value="Apply">-->
                 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal_Utils::_('%d contact groups', count($groups))) ?></span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal_Utils::_('%d contact groups'), count($groups)) ?></span>
                     <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
                     <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
                     <!--<span class="paging-input">1 of <span class="total-pages">1</span></span>-->
