@@ -8,6 +8,7 @@ class Smsglobal_Ecommerce
     {
         if (get_option('smsglobal_ecommerce_enabled')) {
             add_action('wpsc_submit_checkout', array($this, 'newOrderSms'), 10);
+            add_action('wpsc_edit_order_status', array($this, 'orderUpdateSms'), 10);
         }
     }
 
@@ -23,6 +24,34 @@ class Smsglobal_Ecommerce
         $message = $this->getMessage($logId, $price);
 
         $this->sendSms($message);
+    }
+
+    /**
+     * Sends an SMS when a order status is changed
+     *
+     * @param array $logInfo
+     */
+    public function orderUpdateSms($logInfo)
+    {
+        $logId = (int) $logInfo['purchlog_id'];
+        $statusLabel = $this->getOrderStatusLabel( $logInfo['new_status'] );
+        $message = $this->getOrderStatusMessage($logId, $statusLabel);
+        $this->sendSms($message);
+    }
+
+    /**
+     * Gets the Status label for order status
+     *
+     * @param int $statusNumber
+     * @return string
+     */
+    public  function getOrderStatusLabel( $statusNumber ) {
+        global $wpsc_purchlog_statuses;
+        foreach ( $wpsc_purchlog_statuses as $status ) {
+            if ( $statusNumber == $status[ 'order' ] ) {
+                return $status[ 'label' ];
+            }
+        }
     }
 
     /**
@@ -86,6 +115,21 @@ class Smsglobal_Ecommerce
     {
         $message = Smsglobal_Utils::_('Order #%s placed for %s');
         $message = sprintf($message, $logId, $price);
+
+        return $message;
+    }
+
+    /**
+     * Generates the order status message to send via SMS
+     *
+     * @param int $logId
+     * @param string $price
+     * @return string
+     */
+    protected function getOrderStatusMessage($logId, $statusLabel)
+    {
+        $message = Smsglobal_Utils::_('Order #%s status changed to %s');
+        $message = sprintf($message, $logId, $statusLabel);
 
         return $message;
     }
