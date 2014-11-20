@@ -67,7 +67,7 @@ jQuery(function($) {
             }
         }).done(function ( data ) {
             $('#smsglobal_alertmessage').html(data);
-            if(data == "Your subscription has been verified sucessfully.")
+            if(data == "Your subscription has been verified successfully.")
             {
                 $("#subscription_verification_form").hide();
             }

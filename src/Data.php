@@ -41,29 +41,43 @@ function smsglobal_install_data() {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_subscription";
 
-    $author_origin = get_option('auth_origin');
-    $rows_affected = $wpdb->insert( $table_name,
-        array(
-            'time' => current_time('mysql'),
-            'name' => 'Author Origin',
-            'mobile' => $author_origin,
-        )
-    );
+    require_once( ABSPATH . 'wp-includes/pluggable.php' );
+    $currentUserId = get_current_user_id();
+    $authorMobile = get_user_meta($currentUserId, 'mobile', true);
+
+    $checkExistArr = $wpdb->get_col($wpdb->prepare("SELECT count(1) AS count FROM `{$table_name}` WHERE `mobile` = '%s'", $authorMobile));
+
+    if($checkExistArr[0] < 1) {
+        $rows_affected = $wpdb->insert( $table_name,
+            array(
+                'time' => current_time('mysql'),
+                'name' => 'Author Origin',
+                'mobile' => $authorMobile,
+				'verified' => 1
+            )
+        );
+    }
 }
 
 function smsglobal_insert_subscription($name, $mobile, $url = null, $email = null) {
     global $wpdb;
     $table_name = $wpdb->prefix . "sms_subscription";
 
-    $rows_affected = $wpdb->insert( $table_name,
-        array(
-            'time' => current_time('mysql'),
-            'name' => $name,
-            'mobile' => $mobile,
-            'url' => $url,
-            'email' => $email,
-        )
-    );
+    $checkExistArr = $wpdb->get_col($wpdb->prepare("SELECT count(1) AS count FROM `{$table_name}` WHERE `mobile` = '%s'", $mobile));
+
+    if($checkExistArr[0]< 1) {
+        $rows_affected = $wpdb->insert( $table_name,
+            array(
+                'time' => current_time('mysql'),
+                'name' => $name,
+                'mobile' => $mobile,
+                'url' => $url,
+                'email' => $email,
+            )
+        );
+    } else {
+        return 1;
+    }
 }
 
 function smsglobal_mark_subscription_verified($mobile) {
@@ -92,6 +106,15 @@ function smsglobal_mark_subscription_verified($mobile) {
     );
 }
 
+function smsglobal_is_subscription_verified($mobile) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . "sms_subscription";
+    $verified = $wpdb->query($wpdb->prepare("SELECT verified FROM `{$table_name}` WHERE `mobile` = '%s'", $mobile));
+    if($verified == 1) {
+        return true;
+    }
+    return false;
+}
 
 function smsglobal_get_subscription($name = null, $mobile = null, $mobileOnly = false) {
     global $wpdb;

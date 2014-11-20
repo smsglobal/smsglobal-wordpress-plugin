@@ -29,7 +29,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             $code_label = esc_attr($instance['code_label']);
             $submit_text = esc_attr($instance['submit_text']);
             $verify_text = esc_attr($instance['verify_text']);
-
         } else {
             $form_title = Smsglobal_Utils::_('SMS Subscription');
             $name_label = Smsglobal_Utils::_('Name');
@@ -80,7 +79,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
 
     function widget($args, $instance)
     {
-
         echo $args['before_widget'];
         if (!empty($instance['form_title'])) {
             echo $args['before_title'];
@@ -102,11 +100,11 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             <input class="widefat" id="mobile" name="mobile" type="text" value="" />
         </div>
         <div>
-            <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
+            <br><input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
         </div>
         </form>
         <br/>
-        <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php">
+        <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php" style="display: none;">
             <div>
                 <label for="name"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label']; ?></label>
                 <input class="widefat" id="mobile_verify" name="mobile" type="text" value="" />
@@ -116,7 +114,7 @@ class Smsglobal_Subscription_Widget extends WP_Widget
                 <input class="widefat" id="code" name="code" type="text" value="" />
             </div>
             <div>
-                <input id="subscription_verification_submit" name="subscription_verification_submit" type="submit" value="<?php echo $instance['verify_text'];?>"/>
+                <br><input id="subscription_verification_submit" name="subscription_verification_submit" type="submit" value="<?php echo $instance['verify_text'];?>"/>
             </div>
         </form>
     </div>

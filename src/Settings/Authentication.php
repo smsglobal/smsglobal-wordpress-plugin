@@ -74,7 +74,8 @@ class Smsglobal_Settings_Authentication
      */
     public function getAuthOriginHtml()
     {
-        ?><input type="text" id="smsglobal-auth-origin" name="array_key[auth_origin]" value="<?php echo get_option('smsglobal_auth_origin'); ?>"><?php
+        ?><input type="text" id="smsglobal-auth-origin" name="array_key[auth_origin]" value="<?php echo get_option('smsglobal_auth_origin'); ?>"><br>
+        <span style="font-size: 10px">Letters (4-11 chars) or Valid mobile #</span><?php
     }
 
     /**

@@ -23,6 +23,13 @@ global $wp_styles;
 $wp_styles->done = array();
 
 login_header() ?>
+    <?php if(isset($error) && is_array($error) && $error['error'] == 1): ?>
+    <div id="login_error">
+        <strong>ERROR</strong>: <?php echo $error['error_msg']; ?>
+        <br><br>
+        If you are not able to receive verification code or do not have access to your phone. You can override this feature by setting <kbd>SMSGLOBAL_AUTH</kbd> to false in your wp-config.php file.
+    </div>
+    <?php endif; ?>
     <form name="loginform" id="loginform" action="<?php echo esc_url( admin_url() ); ?>" method="post">
         <p><?php echo Smsglobal_Utils::_('An SMS has been sent to your phone for verification. Enter the code here to login.') ?></p>
         <p>

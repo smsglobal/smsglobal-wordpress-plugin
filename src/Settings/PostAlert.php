@@ -105,6 +105,10 @@ class Smsglobal_Settings_PostAlert
     {
         $value = $input['post_alerts_origin'];
 
+        if(!is_numeric($value) && strlen($value) > 11) {
+            $value = substr($value, 0, 11);
+        }
+
         if (get_option('smsglobal_post_alerts_origin') === false) {
             add_option('smsglobal_post_alerts_origin', $value);
         } else {

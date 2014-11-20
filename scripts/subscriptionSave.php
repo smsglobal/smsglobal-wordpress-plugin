@@ -20,16 +20,31 @@ $url = $_POST['url'];
 
 if( !empty($name) && !empty($mobile) )
 {
-    smsglobal_insert_subscription($name, $mobile, $url, $email);
+    $errors = smsglobal_insert_subscription($name, $mobile, $url, $email);
 
     if (empty($errors)) {
 
         $rest = Smsglobal_Utils::getRestClient();
-        $from = get_bloginfo('name');
-        if($from == '')
-            $from = get_option('smsglobal_auth_origin');
-        if($from == '')
+        $from = trim(get_option('smsglobal_post_alerts_origin'));
+
+        ///Post alert origin is not found USE site name
+        if(strlen($from) < 1) {
+            $from = get_bloginfo('name');
+            //strict site name to 11 characters
+            if(strlen($from) > 11) {
+                $from = substr($from, 0, 11);
+            }
+        }
+
+        //blog name is not found
+        if(strlen($from) < 1) {
+            $from = get_option( 'smsglobal_auth_origin' );
+        }
+
+        //if no auth origin is set, use default
+        if(strlen($from) < 1) {
             $from = 'pool:1';
+        }
 
         $verificationCode = Smsglobal_Utils::getVerificationCode($mobile);
         smsglobal_insert_verification($verificationCode, $mobile);
@@ -43,6 +58,9 @@ if( !empty($name) && !empty($mobile) )
             echo "Unable to send verification code to this mobile number";
             exit();
         }
+    } else {
+        echo 'Mobile number already exists in subscription list.';
+        exit();
     }
 
     echo "We have sent you a verification code to your mobile.";
@@ -51,5 +69,3 @@ else
 {
     echo 'Name or Mobile are invalid.';
 }
-
-?>

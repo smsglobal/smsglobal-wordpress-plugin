@@ -14,7 +14,7 @@ $mobile = $_POST['mobile'];
 if( !empty($code) && !empty($mobile) )
 {
     if(smsglobal_verify($code, $mobile)) {
-        echo "Your subscription has been verified sucessfully.";
+        echo "Your subscription has been verified successfully.";
         smsglobal_mark_subscription_verified($mobile);
     } else {
         echo "Verification code is incorrect.";
@@ -24,5 +24,3 @@ else
 {
     echo 'Please provide mobile number and verification code.';
 }
-
-?>
