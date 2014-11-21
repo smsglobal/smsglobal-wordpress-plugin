@@ -7,44 +7,47 @@ class Smsglobal_Settings_Shopp
      */
     public function __construct()
     {
-        register_setting('smsglobal_option_group', 'array_key',
-            array($this, 'saveShoppEnabled'));
+        $this->vm = SMSGlobal\VersionManager\VersionManager::getInstance();
+        if(is_plugin_active('shopp/Shopp.php') && $this->vm->isAvailable('shopp')) {
+            register_setting('smsglobal_option_group', 'array_key',
+                array($this, 'saveShoppEnabled'));
 
-        register_setting('smsglobal_option_group', 'array_key',
-            array($this, 'saveShoppOrigin'));
+            register_setting('smsglobal_option_group', 'array_key',
+                array($this, 'saveShoppOrigin'));
 
-        register_setting('smsglobal_option_group', 'array_key',
-            array($this, 'saveShoppDestination'));
+            register_setting('smsglobal_option_group', 'array_key',
+                array($this, 'saveShoppDestination'));
+
+            add_settings_field(
+                'shopp_enabled',
+                Smsglobal_Utils::_('Order alerts'),
+                array($this, 'getShoppEnabledHtml'),
+                'smsglobal',
+                'smsglobal_settings_shopp'
+            );
+
+            add_settings_field(
+                'shopp_origin',
+                Smsglobal_Utils::_('SMS comes from'),
+                array($this, 'getShoppOriginHtml'),
+                'smsglobal',
+                'smsglobal_settings_shopp'
+            );
+
+            add_settings_field(
+                'shopp_destination',
+                Smsglobal_Utils::_('SMS goes to'),
+                array($this, 'getShoppDestinationHtml'),
+                'smsglobal',
+                'smsglobal_settings_shopp'
+            );
+        }
 
         add_settings_section(
             'smsglobal_settings_shopp',
             Smsglobal_Utils::_('Shopp Integration'),
             array($this, 'getSectionShoppInfo'),
             'smsglobal'
-        );
-
-        add_settings_field(
-            'shopp_enabled',
-            Smsglobal_Utils::_('Order alerts'),
-            array($this, 'getShoppEnabledHtml'),
-            'smsglobal',
-            'smsglobal_settings_shopp'
-        );
-
-        add_settings_field(
-            'shopp_origin',
-            Smsglobal_Utils::_('SMS comes from'),
-            array($this, 'getShoppOriginHtml'),
-            'smsglobal',
-            'smsglobal_settings_shopp'
-        );
-
-        add_settings_field(
-            'shopp_destination',
-            Smsglobal_Utils::_('SMS goes to'),
-            array($this, 'getShoppDestinationHtml'),
-            'smsglobal',
-            'smsglobal_settings_shopp'
         );
     }
 
@@ -55,10 +58,18 @@ class Smsglobal_Settings_Shopp
      */
     public function getSectionShoppInfo()
     {
-        if(get_option('smsglobal_shopp_enabled')) {
-            print 'Sends an SMS alert of a new order placed through your "Shopp" e-commerce plugin with new order information.';
+        if(!is_plugin_active('shopp/Shopp.php')) {
+            print 'This plugin supports "Shopp" e-commerce plugin. You can receive SMS alert of new order placed on "Shopp"';
         } else {
-            print 'Enable to receive an SMS alert of a new order placed through your "Shopp" e-commerce plugin with new order information.';
+            if(!$this->vm->isAvailable('shopp')) {
+                print 'Installed version of "Shopp" e-commerce plugin is not supported. Please upgrade plugin to latest version to continue using this feature.';
+            } else {
+                if(get_option( 'smsglobal_shopp_enabled')) {
+                    print 'Sends an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.';
+                } else {
+                    print 'Enable to receive an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.';
+                }
+            }
         }
     }
 
