@@ -140,4 +140,28 @@ function smsglobal_register_widgets()
     register_widget('Smsglobal_Subscription_Widget');
 }
 
+function show_subscription_widget()
+{
+    $args = array(
+        'before_widget' => '<div class="box widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<div style="font-size:14px;font-weight:700;line-height:1.7;margin:0 0 24px;text-transform:uppercase">',
+        'after_title'   => '</div>',
+    );
+
+    $instance['form_title'] = Smsglobal_Utils::_('SMS Subscription');
+    $instance['name_label'] = Smsglobal_Utils::_('Name');
+    $instance['mobile_label'] = Smsglobal_Utils::_('Mobile');
+    $instance['code_label'] = Smsglobal_Utils::_('Code');
+    $instance['submit_text'] = Smsglobal_Utils::_('Subscribe');
+    $instance['verify_text'] = Smsglobal_Utils::_('Verify');
+
+    ob_start();
+    the_widget('Smsglobal_Subscription_Widget', $instance, $args );
+    $output = ob_get_clean();
+
+    return $output;
+}
+
 add_action('widgets_init', 'smsglobal_register_widgets');
+add_shortcode('smsglobal', 'show_subscription_widget');
