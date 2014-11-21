@@ -213,7 +213,7 @@ class Smsglobal_SmsPage
             $query = 'SELECT m1.meta_value FROM ' . $wpdb->usermeta . ' m1
             JOIN ' . $wpdb->usermeta . ' m2 ON (m1.user_id = m2.user_id AND
             m2.meta_key = "' . $prefix . 'capabilities" AND
-            CAST(m2.meta_value AS CHAR) LIKE "%\"%s\"%")
+            CAST(m2.meta_value AS CHAR) LIKE "%%%s%%")
             WHERE m1.meta_key = "mobile"';
             $query = $wpdb->prepare($query, $to);
 

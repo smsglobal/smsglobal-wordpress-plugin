@@ -75,7 +75,7 @@ class Smsglobal_Settings_ApiKeys
      */
     public function saveApiKey($input)
     {
-        $value = $input['api_key'];
+        $value = trim($input['api_key']);
 
         if (get_option('smsglobal_api_key') === false) {
             add_option('smsglobal_api_key', $value);
@@ -94,7 +94,7 @@ class Smsglobal_Settings_ApiKeys
      */
     public function saveApiSecret($input)
     {
-        $value = $input['api_secret'];
+        $value = trim($input['api_secret']);
 
         if (get_option('smsglobal_api_secret') === false) {
             add_option('smsglobal_api_secret', $value);

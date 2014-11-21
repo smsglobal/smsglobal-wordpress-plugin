@@ -157,7 +157,7 @@ class Smsglobal_PostAlert
     protected function getMessage(WP_Post $post)
     {
         $message = sprintf(
-            Smsglobal_Utils::_('New post at %s: %s See it at %s'),
+            Smsglobal_Utils::_('New post at %s: %s. See it at %s'),
             get_bloginfo('name'),
             get_the_title($post),
             get_permalink($post->ID)
