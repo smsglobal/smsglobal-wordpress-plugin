@@ -17,7 +17,7 @@ function smsglobal_install() {
         url VARCHAR(100) DEFAULT '' NOT NULL,
         verified TINYINT(1) DEFAULT 0 NOT NULL,
         UNIQUE KEY id (id)
-    );";
+    ) COLLATE='utf8_general_ci' ;";
 
 
     $verfication_table_name = $wpdb->prefix . "sms_verification";
@@ -29,7 +29,7 @@ function smsglobal_install() {
         mobile VARCHAR(20) NOT NULL,
         UNIQUE KEY id (id),
         UNIQUE KEY mobile (mobile)
-    );";
+    ) COLLATE='utf8_general_ci' ;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta( $sql );
