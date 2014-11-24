@@ -20,7 +20,7 @@ class Smsglobal_Settings_WPecommerce
 
             add_settings_field(
                 'ecommerce_enabled',
-                Smsglobal_Utils::_('Order alerts'),
+                __('Order alerts', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getEcommerceEnabledHtml'),
                 'smsglobal',
                 'smsglobal_settings_ecommerce'
@@ -28,7 +28,7 @@ class Smsglobal_Settings_WPecommerce
 
             add_settings_field(
                 'ecommerce_origin',
-                Smsglobal_Utils::_('SMS comes from'),
+                __('SMS comes from', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getEcommerceOriginHtml'),
                 'smsglobal',
                 'smsglobal_settings_ecommerce'
@@ -36,7 +36,7 @@ class Smsglobal_Settings_WPecommerce
 
             add_settings_field(
                 'ecommerce_destination',
-                Smsglobal_Utils::_('SMS goes to'),
+                __('SMS goes to', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getEcommerceDestinationHtml'),
                 'smsglobal',
                 'smsglobal_settings_ecommerce'
@@ -45,7 +45,7 @@ class Smsglobal_Settings_WPecommerce
 
         add_settings_section(
             'smsglobal_settings_ecommerce',
-            Smsglobal_Utils::_('e-Commerce Integration'),
+            __('e-Commerce Integration', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSectionWPCommerceInfo'),
             'smsglobal'
         );
@@ -84,7 +84,7 @@ class Smsglobal_Settings_WPecommerce
         ?>
         <label for="smsglobal-ecommerce-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-ecommerce-enabled" name="array_key[ecommerce_enabled]" value="1">
-        <?php echo Smsglobal_Utils::_('Enable') ?>
+        <?php _e('Enable', SMSGLOBAL_TEXT_DOMAIN) ?>
         </label><?php
     }
 

@@ -38,10 +38,9 @@ class Smsglobal_Shopp
      */
     protected function getMessage($purchase)
     {
+        /* translators: Shopp plugin new order received alert message format.*/
         $message = sprintf(
-            Smsglobal_Utils::_(
-                "Customer: %s %s\nEmail: %s\nDestination: %s, %s, %s\nTotal: $%s"
-            ),
+            __("Customer: %s %s\nEmail: %s\nDestination: %s, %s, %s\nTotal: $%s", SMSGLOBAL_TEXT_DOMAIN),
             $purchase->firstname,
             $purchase->lastname,
             $purchase->email,

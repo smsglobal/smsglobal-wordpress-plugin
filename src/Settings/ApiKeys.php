@@ -15,14 +15,14 @@ class Smsglobal_Settings_ApiKeys
 
         add_settings_section(
             'smsglobal_settings_api_key',
-            Smsglobal_Utils::_('API Key Settings'),
+            __('API Key Settings', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSectionInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'api_key',
-            Smsglobal_Utils::_('API Key'),
+            __('API Key', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getApiKeyHtml'),
             'smsglobal',
             'smsglobal_settings_api_key'
@@ -30,7 +30,7 @@ class Smsglobal_Settings_ApiKeys
 
         add_settings_field(
             'api_secret',
-            Smsglobal_Utils::_('API Secret'),
+            __('API Secret', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getApiSecretHtml'),
             'smsglobal',
             'smsglobal_settings_api_key'

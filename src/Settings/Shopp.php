@@ -20,7 +20,7 @@ class Smsglobal_Settings_Shopp
 
             add_settings_field(
                 'shopp_enabled',
-                Smsglobal_Utils::_('Order alerts'),
+                __('Order alerts', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getShoppEnabledHtml'),
                 'smsglobal',
                 'smsglobal_settings_shopp'
@@ -28,7 +28,7 @@ class Smsglobal_Settings_Shopp
 
             add_settings_field(
                 'shopp_origin',
-                Smsglobal_Utils::_('SMS comes from'),
+                __('SMS comes from', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getShoppOriginHtml'),
                 'smsglobal',
                 'smsglobal_settings_shopp'
@@ -36,7 +36,7 @@ class Smsglobal_Settings_Shopp
 
             add_settings_field(
                 'shopp_destination',
-                Smsglobal_Utils::_('SMS goes to'),
+                __('SMS goes to', SMSGLOBAL_TEXT_DOMAIN),
                 array($this, 'getShoppDestinationHtml'),
                 'smsglobal',
                 'smsglobal_settings_shopp'
@@ -45,7 +45,7 @@ class Smsglobal_Settings_Shopp
 
         add_settings_section(
             'smsglobal_settings_shopp',
-            Smsglobal_Utils::_('Shopp Integration'),
+            __('Shopp Integration', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSectionShoppInfo'),
             'smsglobal'
         );
@@ -84,7 +84,7 @@ class Smsglobal_Settings_Shopp
         ?>
         <label for="smsglobal-shopp-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-shopp-enabled" name="array_key[shopp_enabled]" value="1">
-        <?php echo Smsglobal_Utils::_('Enable') ?>
+        <?php _e('Enable', SMSGLOBAL_TEXT_DOMAIN) ?>
         </label><?php
     }
 

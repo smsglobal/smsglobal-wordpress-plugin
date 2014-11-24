@@ -132,8 +132,9 @@ class Smsglobal_Authentication
      */
     protected function getMessage($code)
     {
+        /* translators: 2 factor authentication verification code message format.*/
         $message = sprintf(
-            Smsglobal_Utils::_('Your SMS code for %s is %s.'),
+            __('Your SMS code for %s is %s.', SMSGLOBAL_TEXT_DOMAIN),
             get_bloginfo('name'),
             $code
         );

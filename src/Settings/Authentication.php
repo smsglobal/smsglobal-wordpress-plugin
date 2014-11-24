@@ -15,14 +15,14 @@ class Smsglobal_Settings_Authentication
 
         add_settings_section(
             'smsglobal_settings_auth',
-            Smsglobal_Utils::_('2 Factor Authentication'),
+            __('2 Factor Authentication', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSection2FactorAuthInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'enable_auth',
-            Smsglobal_Utils::_('Require SMS code for admin panel'),
+            __('Require SMS code for admin panel', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getEnableAuthHtml'),
             'smsglobal',
             'smsglobal_settings_auth'
@@ -30,7 +30,7 @@ class Smsglobal_Settings_Authentication
 
         add_settings_field(
             'auth_origin',
-            Smsglobal_Utils::_('SMS comes from'),
+            __('SMS comes from', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getAuthOriginHtml'),
             'smsglobal',
             'smsglobal_settings_auth'
@@ -63,7 +63,7 @@ class Smsglobal_Settings_Authentication
         ?>
         <label for="smsglobal-auth-enabled">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-auth-enabled" name="array_key[enable_auth]" value="1">
-        <?php echo Smsglobal_Utils::_('Enable') ?>
+        <?php _e('Enable', SMSGLOBAL_TEXT_DOMAIN) ?>
         </label><?php
     }
 

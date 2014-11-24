@@ -13,7 +13,7 @@ class Smsglobal_SmsPage
 
     public function addMenu()
     {
-        $title = Smsglobal_Utils::_('SMS');
+        $title = __('SMS', SMSGLOBAL_TEXT_DOMAIN);
         add_menu_page($title, $title, 'manage_options', 'smsglobal', array($this, 'getPage'));
     }
 
@@ -47,14 +47,14 @@ class Smsglobal_SmsPage
         ?>
         <div class="wrap">
             <?php screen_icon() ?>
-            <h2><?php echo Smsglobal_Utils::_('Send an SMS') ?></h2>
+            <h2><?php _e('Send an SMS', SMSGLOBAL_TEXT_DOMAIN) ?></h2>
             <?php
             if (!$isConfigured):
                 ?>
                 <div class="updated" id="message">
-                    <p><?php echo Smsglobal_Utils::_('Please configure your SMSGlobal settings first.') ?></p>
+                    <p><?php _e('Please configure your SMSGlobal settings first.', SMSGLOBAL_TEXT_DOMAIN) ?></p>
 
-                    <p><a href="options-general.php?page=smsglobal-settings"><?php echo Smsglobal_Utils::_('Configure now') ?></a></p>
+                    <p><a href="options-general.php?page=smsglobal-settings"><?php _e('Configure now', SMSGLOBAL_TEXT_DOMAIN) ?></a></p>
                 </div>
                 <?php
                 return;
@@ -77,26 +77,26 @@ class Smsglobal_SmsPage
             <form action="admin.php?page=smsglobal" method="post">
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row"><label for="id_from"><?php echo Smsglobal_Utils::_('From') ?></label></th>
+                        <th scope="row"><label for="id_from"><?php _e('From', SMSGLOBAL_TEXT_DOMAIN) ?></label></th>
                         <td><input class="regular-text" id="id_from" name="from" type="text" value="<?php echo esc_attr($from) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_to"><?php echo Smsglobal_Utils::_('To') ?></label></th>
+                        <th scope="row"><label for="id_to"><?php _e('To', SMSGLOBAL_TEXT_DOMAIN) ?></label></th>
                         <td><select name="to" id="id_to">
                             <?php foreach ($toOptions as $value => $label): ?>
-                                <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(Smsglobal_Utils::_($label)) ?></option>
+                                <option<?php if ($value === $to): ?> selected="selected"<?php endif ?> value="<?php echo esc_attr($value) ?>"><?php echo esc_html(__($label, SMSGLOBAL_TEXT_DOMAIN)) ?></option>
                             <?php endforeach ?>
                         </select>
                         <input class="regular-text" id="id_number" name="number" type="tel" value="<?php echo esc_attr($number) ?>"></td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row"><label for="id_message"><?php echo Smsglobal_Utils::_('Message') ?></label></th>
+                        <th scope="row"><label for="id_message"><?php _e('Message', SMSGLOBAL_TEXT_DOMAIN) ?></label></th>
                         <td><textarea cols="50" id="id_message" rows="10" name="message" class="large-text"><?php echo esc_html($message) ?></textarea></td>
                     </tr>
                 </table>
 
                 <p class="submit">
-                    <button class="button button-primary" type="submit"><?php echo Smsglobal_Utils::_('Send SMS') ?></button>
+                    <button class="button button-primary" type="submit"><?php _e('Send SMS', SMSGLOBAL_TEXT_DOMAIN) ?></button>
                 </p>
             </form>
         </div>
@@ -115,7 +115,7 @@ class Smsglobal_SmsPage
     {
         if (null === $this->toOptions) {
             $this->toOptions = Smsglobal_Utils::getRoles();
-            $this->toOptions['number'] = Smsglobal_Utils::_('Number');
+            $this->toOptions['number'] = __('Number', SMSGLOBAL_TEXT_DOMAIN);
         }
 
         return $this->toOptions;
@@ -129,10 +129,10 @@ class Smsglobal_SmsPage
         if (isset($data['from'])) {
             $from = (string) $data['from'];
             if ('' === $from) {
-                $errors['from'] = Smsglobal_Utils::_('This field is required');
+                $errors['from'] = __('This field is required', SMSGLOBAL_TEXT_DOMAIN);
             }
         } else {
-            $errors['from'] = Smsglobal_Utils::_('This field is required');
+            $errors['from'] = __('This field is required', SMSGLOBAL_TEXT_DOMAIN);
         }
 
         // To
@@ -141,23 +141,23 @@ class Smsglobal_SmsPage
 
             $toOptions = $this->getToOptions();
             if (!isset($toOptions[$to])) {
-                $errors['to'] = Smsglobal_Utils::_('Please select an option');
+                $errors['to'] = __('Please select an option', SMSGLOBAL_TEXT_DOMAIN);
             } elseif ('number' === $to) {
                 $to = (string) $data['number'];
 
                 if (!ctype_digit($to)) {
-                    $errors['to'] = Smsglobal_Utils::_('Please enter a number');
+                    $errors['to'] = __('Please enter a number', SMSGLOBAL_TEXT_DOMAIN);
                 }
             }
         } else {
-            $errors['to'] = Smsglobal_Utils::_('This field is required');
+            $errors['to'] = __('This field is required', SMSGLOBAL_TEXT_DOMAIN);
         }
 
         // Message
         if (isset($data['message'])) {
             $message = (string) $data['message'];
         } else {
-            $errors['message'] = Smsglobal_Utils::_('This field is required');
+            $errors['message'] = __('This field is required', SMSGLOBAL_TEXT_DOMAIN);
         }
 
         if (empty($errors)) {

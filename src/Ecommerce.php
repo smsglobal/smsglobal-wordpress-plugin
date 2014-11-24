@@ -113,7 +113,8 @@ class Smsglobal_Ecommerce
      */
     protected function getMessage($logId, $price)
     {
-        $message = Smsglobal_Utils::_('Order #%s placed for %s');
+        /* translators: WP eCommerce order received alert message format.*/
+        $message = __('Order #%s placed for %s', SMSGLOBAL_TEXT_DOMAIN);
         $message = sprintf($message, $logId, $price);
 
         return $message;
@@ -128,7 +129,8 @@ class Smsglobal_Ecommerce
      */
     protected function getOrderStatusMessage($logId, $statusLabel)
     {
-        $message = Smsglobal_Utils::_('Order #%s status changed to %s');
+        /* translators: WP eCommerce order status changed alert message format.*/
+        $message = __('Order #%s status changed to %s', SMSGLOBAL_TEXT_DOMAIN);
         $message = sprintf($message, $logId, $statusLabel);
 
         return $message;

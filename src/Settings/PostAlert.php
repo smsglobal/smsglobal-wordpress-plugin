@@ -16,14 +16,14 @@ class Smsglobal_Settings_PostAlert
 
         add_settings_section(
             'smsglobal_settings_post_alerts',
-            Smsglobal_Utils::_('Post Alerts'),
+            __('Post Alerts', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSectionPostAlertsInfo'),
             'smsglobal'
         );
 
         add_settings_field(
             'enable_post_alerts',
-            Smsglobal_Utils::_('Post alerts'),
+            __('Post alerts', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getEnablePostAlertsHtml'),
             'smsglobal',
             'smsglobal_settings_post_alerts'
@@ -31,7 +31,7 @@ class Smsglobal_Settings_PostAlert
 
         add_settings_field(
             'post_alerts_origin',
-            Smsglobal_Utils::_('Send SMS from'),
+            __('Send SMS from', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getPostAlertsOriginHtml'),
             'smsglobal',
             'smsglobal_settings_post_alerts'
@@ -62,7 +62,7 @@ class Smsglobal_Settings_PostAlert
         $checked = (bool) get_option('smsglobal_enable_post_alerts');
         ?><label for="smsglobal-enable-post-alerts">
         <input<?php if ($checked): ?> checked="checked"<?php endif ?> type="checkbox" id="smsglobal-enable-post-alerts" name="array_key[enable_post_alerts]" value="1">
-        <?php echo Smsglobal_Utils::_('Enable') ?>
+        <?php _e('Enable', SMSGLOBAL_TEXT_DOMAIN) ?>
         </label><?php
     }
 

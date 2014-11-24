@@ -40,11 +40,8 @@ class Smsglobal_UserList
     public function addCustomColumns(array $profileFields)
     {
         // Add new fields
-        $profileFields['mobile'] = Smsglobal_Utils::_('Mobile Number');
-
-        if ($this->arePostAlertsEnabled()) {
-            $profileFields['smsglobal_send_post_alerts'] = Smsglobal_Utils::_('Send Post Alerts');
-        }
+        $profileFields['mobile'] = __('Mobile Number', SMSGLOBAL_TEXT_DOMAIN);
+        $profileFields['smsglobal_send_post_alerts'] = __('Send Post Alerts', SMSGLOBAL_TEXT_DOMAIN);
 
         return $profileFields;
     }
@@ -66,7 +63,7 @@ class Smsglobal_UserList
 
             if ('smsglobal_send_post_alerts' === $column) {
                 $value = (bool) $value;
-                $value = Smsglobal_Utils::_($value ? 'Yes' : 'No');
+                $value = __($value ? 'Yes' : 'No', SMSGLOBAL_TEXT_DOMAIN);
             }
         }
 

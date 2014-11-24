@@ -31,14 +31,14 @@ login_header() ?>
     </div>
     <?php endif; ?>
     <form name="loginform" id="loginform" action="<?php echo esc_url( admin_url() ); ?>" method="post">
-        <p><?php echo Smsglobal_Utils::_('An SMS has been sent to your phone for verification. Enter the code here to login.') ?></p>
+        <p><?php _e('An SMS has been sent to your phone for verification. Enter the code here to login.', SMSGLOBAL_TEXT_DOMAIN) ?></p>
         <p>
-            <label for="user_login"><?php echo Smsglobal_Utils::_('SMS Code') ?><br />
+            <label for="user_login"><?php _e('SMS Code', SMSGLOBAL_TEXT_DOMAIN) ?><br />
                 <input type="text" name="code" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
         </p>
         <p class="submit">
             <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
-            <a href="<?php echo wp_logout_url() ?>"><?php echo Smsglobal_Utils::_('Log out') ?></a>
+            <a href="<?php echo wp_logout_url() ?>"><?php _e('Log out', SMSGLOBAL_TEXT_DOMAIN) ?></a>
         </p>
     </form>
 <?php login_footer();
