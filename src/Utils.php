@@ -34,7 +34,7 @@ class Smsglobal_Utils
             global $wp_roles;
 
             self::$roles = array(
-                'all' => self::_('All Users'),
+                'all' => __('All Users', SMSGLOBAL_TEXT_DOMAIN),
             );
 
             foreach ($wp_roles->roles as $id => $role) {
