@@ -14,7 +14,8 @@ class Smsglobal_Utils
         if (null === self::$restClient) {
             $apiKey = new Smsglobal_RestApiClient_ApiKey(
                 get_option('smsglobal_api_key'),
-                get_option('smsglobal_api_secret')
+                get_option('smsglobal_api_secret'),
+                'wordpress'
             );
 
             self::$restClient = new Smsglobal_RestApiClient_RestApiClient($apiKey);
