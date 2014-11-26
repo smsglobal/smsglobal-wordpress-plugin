@@ -16,7 +16,7 @@ $name = $_POST['name'];
 $mobile = $_POST['mobile'];
 $email = $_POST['email'];
 $url = $_POST['url'];
-
+$output = array('error' => 0, 'msg' => '');
 
 if( !empty($name) && !empty($mobile) )
 {
@@ -49,23 +49,31 @@ if( !empty($name) && !empty($mobile) )
         $verificationCode = Smsglobal_Utils::getVerificationCode($mobile);
         smsglobal_insert_verification($verificationCode, $mobile);
         $sms = new Smsglobal_RestApiClient_Resource_Sms();
+        $smsText = __('Subscription Activation Code: %s', SMSGLOBAL_TEXT_DOMAIN);
+        $smsText = sprintf($smsText, $verificationCode);
         $sms->setOrigin($from)
-            ->setMessage('Subscription Activation Code: '.$verificationCode);
+            ->setMessage($smsText);
         try {
             $sms->setDestination($mobile)
                 ->send($rest);
         } catch (Smsglobal_RestApiClient_Exception_InvalidDataException $ex) {
-            echo "Unable to send verification code to this mobile number";
+            $output['error'] = 1;
+            $output['msg'] = __('Unable to send verification code to this mobile number', SMSGLOBAL_TEXT_DOMAIN);
+            echo json_encode($output);
             exit();
         }
     } else {
-        echo 'Mobile number already exists in subscription list.';
+        $output['error'] = 1;
+        $output['msg'] = __('Mobile number already exists in subscription list.', SMSGLOBAL_TEXT_DOMAIN);
+        echo json_encode($output);
         exit();
     }
 
-    echo "We have sent you a verification code to your mobile.";
+    $output['msg'] = __('We have sent a verification code to your mobile.', SMSGLOBAL_TEXT_DOMAIN);
 }
 else
 {
-    echo 'Name or Mobile are invalid.';
+    $output['msg'] = __('Name or Mobile are invalid.', SMSGLOBAL_TEXT_DOMAIN);
 }
+
+echo json_encode($output);

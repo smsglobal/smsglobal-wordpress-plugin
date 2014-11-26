@@ -130,6 +130,16 @@ function smsglobal_add_javascript_files()
         $assets_url = plugin_dir_url(__FILE__).'../assets';
         wp_enqueue_style( 'smsglobal', $assets_url."/smsglobal.css");
         wp_enqueue_script( 'smsglobal', $assets_url."/smsglobal.js",  array('jquery'));
+
+        wp_localize_script( 'smsglobal', 'smsglobalL10n', array(
+            'fullname' => __('Please enter your full name.', SMSGLOBAL_TEXT_DOMAIN),
+            'mobilenumber' => __('Please enter your mobile number.', SMSGLOBAL_TEXT_DOMAIN),
+            'verificationcode' => __('Please enter the verification code.', SMSGLOBAL_TEXT_DOMAIN),
+            'verificationmobile' => __('Please enter your mobile for verification purpose.', SMSGLOBAL_TEXT_DOMAIN),
+            'sending' => __('Sending...', SMSGLOBAL_TEXT_DOMAIN),
+            'requestproblem' => __('There was a problem with the request.', SMSGLOBAL_TEXT_DOMAIN),
+        ) );
+
     }
 }
 

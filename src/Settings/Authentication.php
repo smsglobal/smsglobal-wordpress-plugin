@@ -45,10 +45,10 @@ class Smsglobal_Settings_Authentication
     public function getSection2FactorAuthInfo($section = '')
     {
         if(get_option('smsglobal_enable_auth')) {
-            print 'Controls access to your WordPress administration panel by sending a verification code to your mobile phone when you try and login.';
+            _e('Controls access to your WordPress administration panel by sending a verification code to your mobile phone when you try and login.', SMSGLOBAL_TEXT_DOMAIN);
         } else {
-            print 'Enable 2 factor authentication to control access to your WordPress administration panel by sending a verification code to your mobile phone when you try and
-            login.';
+            _e('Enable 2 factor authentication to control access to your WordPress administration panel by sending a verification code to your mobile phone when you try and
+            login.', SMSGLOBAL_TEXT_DOMAIN);
         }
     }
 
@@ -75,7 +75,7 @@ class Smsglobal_Settings_Authentication
     public function getAuthOriginHtml()
     {
         ?><input type="text" id="smsglobal-auth-origin" name="array_key[auth_origin]" value="<?php echo get_option('smsglobal_auth_origin'); ?>"><br>
-        <span style="font-size: 10px">Letters (4-11 chars) or Valid mobile #</span><?php
+        <span style="font-size: 10px"><?php _e('Letters (4-11 chars) or Valid mobile #', SMSGLOBAL_TEXT_DOMAIN); ?></span><?php
     }
 
     /**

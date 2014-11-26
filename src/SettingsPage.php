@@ -12,7 +12,7 @@ class Smsglobal_SettingsPage
 
     public function addSettingsPage()
     {
-        $title = __('SMSGlobal', SMSGLOBAL_TEXT_DOMAIN);
+        $title = 'SMSGlobal ' . __('Plugin Settings', SMSGLOBAL_TEXT_DOMAIN);
         add_options_page($title, $title, 'manage_options',
             'smsglobal-settings', array($this, 'createAdminPage'));
     }

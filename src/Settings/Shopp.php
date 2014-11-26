@@ -59,15 +59,15 @@ class Smsglobal_Settings_Shopp
     public function getSectionShoppInfo()
     {
         if(!is_plugin_active('shopp/Shopp.php')) {
-            print 'This plugin supports "Shopp" e-commerce plugin. You can receive SMS alert of new order placed on "Shopp"';
+            _e('This plugin supports "Shopp" e-commerce plugin. You can receive SMS alert of new order placed on "Shopp"', SMSGLOBAL_TEXT_DOMAIN);
         } else {
             if(!$this->vm->isAvailable('shopp')) {
-                print 'Installed version of "Shopp" e-commerce plugin is not supported. Please upgrade plugin to latest version to continue using this feature.';
+                _e('Installed version of "Shopp" e-commerce plugin is not supported. Please upgrade plugin to latest version to continue using this feature.', SMSGLOBAL_TEXT_DOMAIN);
             } else {
                 if(get_option( 'smsglobal_shopp_enabled')) {
-                    print 'Sends an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.';
+                    _e('Sends an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.', SMSGLOBAL_TEXT_DOMAIN);
                 } else {
-                    print 'Enable to receive an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.';
+                    _e('Enable to receive an SMS alert of a new order placed through "Shopp" e-commerce plugin with new order information.', SMSGLOBAL_TEXT_DOMAIN);
                 }
             }
         }

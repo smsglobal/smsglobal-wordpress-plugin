@@ -46,9 +46,9 @@ class Smsglobal_Settings_PostAlert
     public function getSectionPostAlertsInfo()
     {
         if(get_option('smsglobal_enable_post_alerts')) {
-            print 'All subscribers / users receive an SMS alert of a new post with a link to the post.';
+            _e('All subscribers / users receive an SMS alert of a new post with a link to the post.', SMSGLOBAL_TEXT_DOMAIN);
         } else {
-            print 'Enable post alerts to send an SMS alert of a new post to subscribers / users with a link to the post.';
+            _e('Enable post alerts to send an SMS alert of a new post to subscribers / users with a link to the post.', SMSGLOBAL_TEXT_DOMAIN);
         }
     }
 

@@ -45,7 +45,7 @@ class Smsglobal_Settings_WPecommerce
 
         add_settings_section(
             'smsglobal_settings_ecommerce',
-            __('e-Commerce Integration', SMSGLOBAL_TEXT_DOMAIN),
+            __('WP eCommerce Integration', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getSectionWPCommerceInfo'),
             'smsglobal'
         );
@@ -59,15 +59,15 @@ class Smsglobal_Settings_WPecommerce
     public function getSectionWPCommerceInfo()
     {
         if(!is_plugin_active('wp-e-commerce/wp-shopping-cart.php')) {
-            print 'This plugin supports "WP eCommerce" plugin. You can receive SMS alert of new order placed on "WP eCommerce" and send order status updates to your customers.';
+            _e('This plugin supports "WP eCommerce" plugin. You can receive SMS alert of new order placed on "WP eCommerce" and send order status updates to your customers.', SMSGLOBAL_TEXT_DOMAIN);
         } else {
             if(!$this->vm->isAvailable('wp-e-commerce')) {
-                print 'Installed version of "WP eCommerce" plugin is not supported. Please upgrade plugin to latest version to continue using this feature.';
+                _e('Installed version of "WP eCommerce" plugin is not supported. Please upgrade plugin to latest version to continue using this feature.', SMSGLOBAL_TEXT_DOMAIN);
             } else {
                 if(get_option( 'smsglobal_ecommerce_enabled')) {
-                    print 'Sends an SMS alert of a new order placed through "WP eCommerce" plugin with new order information.';
+                    _e('Sends an SMS alert of a new order placed through "WP eCommerce" plugin with new order information.', SMSGLOBAL_TEXT_DOMAIN);
                 } else {
-                    print 'Enable to receive an SMS alert of a new order placed through "WP eCommerce" plugin with new order information.';
+                    _e('Enable to receive an SMS alert of a new order placed through "WP eCommerce" plugin with new order information.', SMSGLOBAL_TEXT_DOMAIN);
                 }
             }
         }

@@ -46,7 +46,6 @@ class Smsglobal_SmsPage
         $isConfigured = $this->checkConfiguration();
         ?>
         <div class="wrap">
-            <?php screen_icon() ?>
             <h2><?php _e('Send an SMS', SMSGLOBAL_TEXT_DOMAIN) ?></h2>
             <?php
             if (!$isConfigured):
@@ -64,7 +63,7 @@ class Smsglobal_SmsPage
                 ?>
                 <div class="updated" id="message">
                 <?php if (empty($errors)): ?>
-                    <p>SMS sent!</p>
+                    <p><?php _e('SMS sent!', SMSGLOBAL_TEXT_DOMAIN); ?></p>
                 <?php else: ?>
                     <ul>
                         <?php foreach ($errors as $field => $error): ?>

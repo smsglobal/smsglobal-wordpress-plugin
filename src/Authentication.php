@@ -79,7 +79,7 @@ class Smsglobal_Authentication
                 return;
             } else {
                 $error['error'] = 1;
-                $error['error_msg'] = 'The verification code you entered is incorrect.';
+                $error['error_msg'] = __('The verification code you entered is incorrect.', SMSGLOBAL_TEXT_DOMAIN);
             }
         }
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-PLUGINSLUG="smsglobal"
+PLUGINSLUG="smsglobal-sms-plugin"
 
 ENV=${1:-dev}
 

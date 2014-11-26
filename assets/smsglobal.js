@@ -7,18 +7,18 @@ jQuery(function($) {
 
         if(_n.val()=="")
         {
-            $('#smsglobal_alertmessage').html("Please enter your full name.");
+            $('#smsglobal_alertmessage').html(smsglobalL10n.fullname);
             _n.focus();
             return false;
         }
         else if(_m.val()=="")
         {
-            $('#smsglobal_alertmessage').html("Please enter your mobile number.");
+            $('#smsglobal_alertmessage').html(smsglobalL10n.mobilenumber);
             _m.focus();
             return false;
         }
 
-        $('#smsglobal_alertmessage').html("Sending...");
+        $('#smsglobal_alertmessage').html(smsglobalL10n.sending);
         var url = $(this).prop('action');
 
         $.ajax({
@@ -27,17 +27,18 @@ jQuery(function($) {
             data : $('#subscription_form').serialize(),
             beforeSend: function ( xhr ) {
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            }
+            },
+            dataType: "json"
         }).done(function ( data ) {
-            $('#smsglobal_alertmessage').html(data);
-            if(data == "We have sent you a verification code to your mobile.")
+            $('#smsglobal_alertmessage').html(data.msg);
+            if(data.error == 0)
             {
                 $("#subscription_form").hide();
                 $("#subscription_verification_form [name=mobile]").val($("#mobile").val());
                 $("#subscription_verification_form").show();
             }
         }).fail(function() {
-            $('#smsglobal_alertmessage').html('There was a problem with the request.');
+            $('#smsglobal_alertmessage').html(smsglobalL10n.requestproblem);
         });
 
         e.preventDefault();
@@ -45,16 +46,20 @@ jQuery(function($) {
     });
 
     $("#subscription_verification_form").submit(function(e) {
+
+        var _c = $("#code");
+        var _mV = $("#mobile_verify");
+
         if($('#code').val()=="")
         {
-            $('#smsglobal_alertmessage').html("Please enter the verification code.");
-            _n.focus();
+            $('#smsglobal_alertmessage').html(smsglobalL10n.verificationcode);
+            _c.focus();
             return false;
         }
-        if($('#mobile_verification').val()=="")
+        if(_mV.val()=="")
         {
-            $('#smsglobal_alertmessage').html("Please enter your mobile for verification purpose.");
-            _n.focus();
+            $('#smsglobal_alertmessage').html(smsglobalL10n.verificationmobile);
+            _mV.focus();
             return false;
         }
 
@@ -64,15 +69,16 @@ jQuery(function($) {
             data : $('#subscription_verification_form').serialize(),
             beforeSend: function ( xhr ) {
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            }
+            },
+            dataType: "json"
         }).done(function ( data ) {
-            $('#smsglobal_alertmessage').html(data);
-            if(data == "Your subscription has been verified successfully.")
+            $('#smsglobal_alertmessage').html(data.msg);
+            if(data.error == 0)
             {
                 $("#subscription_verification_form").hide();
             }
         }).fail(function() {
-            $('#smsglobal_alertmessage').html('There was a problem with the request.');
+            $('#smsglobal_alertmessage').html(smsglobalL10n.requestproblem);
         });
 
         e.preventDefault();
