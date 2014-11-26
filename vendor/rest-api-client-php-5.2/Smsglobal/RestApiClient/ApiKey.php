@@ -23,15 +23,21 @@ class Smsglobal_RestApiClient_ApiKey
      */
     protected $secret;
     /**
+     * API Package
+     * @var string
+     */
+    protected $package;
+    /**
      * Constructor
      *
      * @param string $key    API key
      * @param string $secret API secret
      */
-    public function __construct($key, $secret)
+    public function __construct($key, $secret, $package = null)
     {
         $this->key = (string) $key;
         $this->secret = (string) $secret;
+        $this->package = $package;
     }
     /**
      * Gets the API key
@@ -41,6 +47,27 @@ class Smsglobal_RestApiClient_ApiKey
     public function getKey()
     {
         return $this->key;
+    }
+    /**
+     * Gets the package name
+     *
+     * @return string
+     */
+    public function getPackage()
+    {
+        return (string) $this->package;
+    }
+    /**
+     * Check if package is set
+     *
+     * @return boolean
+     */
+    public function isSetPackage()
+    {
+        if(!is_null($this->package)) {
+            return true;
+        }
+        return false;
     }
     /**
      * Gets the value to use for the Authorization header

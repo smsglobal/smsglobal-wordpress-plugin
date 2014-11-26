@@ -13,13 +13,13 @@ class Smsglobal_UtilsTest extends WP_UnitTestCase
 
     public function testTranslate()
     {
-        $this->assertEquals('Test', Smsglobal_Utils::_('Test'));
+        $this->assertEquals('Test', __('Test', SMSGLOBAL_TEXT_DOMAIN));
     }
 
     public function testGetRoles()
     {
         $roles = Smsglobal_Utils::getRoles();
         $this->assertInternalType('array', $roles);
-        $this->assertEquals(Smsglobal_Utils::_('All Users'), $roles['all']);
+        $this->assertEquals(__('All Users', SMSGLOBAL_TEXT_DOMAIN), $roles['all']);
     }
 }

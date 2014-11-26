@@ -25,6 +25,7 @@ class Smsglobal_Authentication
         }
 
         add_action('clear_auth_cookie', array($this, 'clearCode'));
+        add_action('wp_login', array( $this, 'sendCode' ), 9, 2);
         add_action('admin_init', array($this, 'handleAuth'));
     }
 
@@ -33,7 +34,7 @@ class Smsglobal_Authentication
      *
      * @param WP_User $user
      */
-    public function sendCode(WP_User $user)
+    public function sendCode($userName, WP_User $user)
     {
         $mobile = get_user_meta($user->ID, 'mobile', true);
 
@@ -63,6 +64,7 @@ class Smsglobal_Authentication
      */
     public function handleAuth()
     {
+        $error = array('error' => 0);
         $user = wp_get_current_user();
         $actualCode = get_user_meta($user->ID, 'smsglobal_auth_code', true);
 
@@ -75,12 +77,15 @@ class Smsglobal_Authentication
                 $this->clearCode();
 
                 return;
+            } else {
+                $error['error'] = 1;
+                $error['error_msg'] = __('The verification code you entered is incorrect.', SMSGLOBAL_TEXT_DOMAIN);
             }
         }
 
         if ($actualCode) {
             // The user has a code but hasn't filled out the form yet. Show it
-            echo Smsglobal_Utils::renderTemplate('sms-code-form');
+            echo Smsglobal_Utils::renderTemplate('sms-code-form', array('error' => $error));
             die;
         }
     }
@@ -127,8 +132,9 @@ class Smsglobal_Authentication
      */
     protected function getMessage($code)
     {
+        /* translators: 2 factor authentication verification code message format.*/
         $message = sprintf(
-            Smsglobal_Utils::_('Your SMS code for %s is %s.'),
+            __('Your SMS code for %s is %s.', SMSGLOBAL_TEXT_DOMAIN),
             get_bloginfo('name'),
             $code
         );

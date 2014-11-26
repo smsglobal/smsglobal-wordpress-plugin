@@ -11,8 +11,8 @@ class Smsglobal_GroupPage
 
     public function addMenu()
     {
-        $title = Smsglobal_Utils::_('Phone Book');
-        $header = Smsglobal_Utils::_('SMSGlobal Phone Book');
+        $title = __('Phone Book', SMSGLOBAL_TEXT_DOMAIN);
+        $header = __('SMSGlobal Phone Book', SMSGLOBAL_TEXT_DOMAIN);
         add_submenu_page('smsglobal', $header, $title, 'manage_options', 'smsglobal_groups', array($this, 'getPage'));
     }
 
@@ -34,8 +34,7 @@ class Smsglobal_GroupPage
         $groups = $apiClient->getList('Group')->objects;
         ?>
     <div class="wrap">
-        <?php screen_icon() ?>
-        <h2><?php echo Smsglobal_Utils::_('SMS Group') ?></h2>
+        <h2><?php _e('SMS Group', SMSGLOBAL_TEXT_DOMAIN) ?></h2>
         <div>&nbsp;</div>
         <?PHP
         if ($groups):
@@ -52,7 +51,7 @@ class Smsglobal_GroupPage
                 <!--                    </select>-->
                 <!--                    <input type="submit" name="" id="doaction" class="button action" value="Apply">-->
                 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo count($groups); ?> groups</span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php printf(__('%d groups', SMSGLOBAL_TEXT_DOMAIN), count($groups)); ?></span>
                     <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
                     <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
                     <!--<span class="paging-input"><input class="current-page" title="Current page" type="text" name="paged" value="1" size="1"> of <span class="total-pages">1</span></span>-->
@@ -64,10 +63,10 @@ class Smsglobal_GroupPage
             <table class="wp-list-table widefat plugins">
                 <thead>
                 <tr valign="top">
-                    <th scope="row"><?php echo Smsglobal_Utils::_('ID') ?></th>
-                    <th scope="row"><?php echo Smsglobal_Utils::_('Name') ?></th>
-                    <th scope="row"><?php echo Smsglobal_Utils::_('Keyword') ?></th>
-                    <th scope="row"><?php echo Smsglobal_Utils::_('Default Origin') ?></th>
+                    <th scope="row"><?php _e('ID', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                    <th scope="row"><?php _e('Name', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                    <th scope="row"><?php _e('Keyword', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                    <th scope="row"><?php _e('Default Origin', SMSGLOBAL_TEXT_DOMAIN) ?></th>
                 </tr>
                 </thead>
                 <?php foreach ($groups as $group): ?>
@@ -91,7 +90,7 @@ class Smsglobal_GroupPage
                 <!--                    </select>-->
                 <!--                    <input type="submit" name="" id="doaction2" class="button action" value="Apply">-->
                 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo sprintf(Smsglobal_Utils::_('%d contact groups', count($groups))) ?></span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php printf(__('%d contact groups', SMSGLOBAL_TEXT_DOMAIN), count($groups)) ?></span>
                     <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
                     <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
                     <!--<span class="paging-input">1 of <span class="total-pages">1</span></span>-->
@@ -103,7 +102,7 @@ class Smsglobal_GroupPage
             <?php
         else:
             ?>
-            <div>You do not have any contact group in <a href="http://mxt.smsglobal.com" target="_blank">MXT</a> yet.</div>
+            <div><?php printf(__('You do not have any contact group in <a href="%s" target="_blank">MXT</a> yet.', SMSGLOBAL_TEXT_DOMAIN), 'http://mxt.smsglobal.com'); ?></div>
             <?php
         endif;
         ?>

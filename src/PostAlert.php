@@ -21,7 +21,7 @@ class Smsglobal_PostAlert
 
         add_meta_box(
             'smsglobal-post-alerts',
-            Smsglobal_Utils::_('SMS Post Alerts'),
+            __('SMS Post Alerts', SMSGLOBAL_TEXT_DOMAIN),
             array($this, 'getMetaBox'),
             'post',
             // 'side' was added on 2.7
@@ -37,9 +37,9 @@ class Smsglobal_PostAlert
     {
         $toOptions = Smsglobal_Utils::getRoles();
         ?>
-        <p><em><?php echo Smsglobal_Utils::_('Post Alerts') ?></em></p>
-        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> <?php echo Smsglobal_Utils::_('Enabled') ?></p>
-        <p><em><?php echo Smsglobal_Utils::_('Send To') ?></em></p>
+        <p><em><?php _e('Post Alerts', SMSGLOBAL_TEXT_DOMAIN) ?></em></p>
+        <p><input checked="checked" name="smsglobal_post_alerts" type="checkbox" value="1"> <?php _e('Enabled', SMSGLOBAL_TEXT_DOMAIN) ?></p>
+        <p><em><?php _e('Send To', SMSGLOBAL_TEXT_DOMAIN) ?></em></p>
         <p><select class="tags-input" name="smsglobal_post_alerts_to">
         <?php foreach ($toOptions as $value => $label): ?>
             <option value="<?php echo esc_attr($value) ?>"><?php echo esc_html($label) ?></option>
@@ -156,8 +156,9 @@ class Smsglobal_PostAlert
      */
     protected function getMessage(WP_Post $post)
     {
+        /* translators: New post alert message format.*/
         $message = sprintf(
-            Smsglobal_Utils::_('New post at %s: %s See it at %s'),
+            __('New post at %s: %s. See it at %s', SMSGLOBAL_TEXT_DOMAIN),
             get_bloginfo('name'),
             get_the_title($post),
             get_permalink($post->ID)

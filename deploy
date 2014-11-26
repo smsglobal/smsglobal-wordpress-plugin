@@ -1,5 +1,9 @@
 #!/bin/bash
-PLUGINSLUG="smsglobal"
+PLUGINSLUG="smsglobal-sms-plugin"
+
+ENV=${1:-dev}
+
+echo "Starting deployment for $ENV environment"
 
 # main config, set off of plugin slug
 CURRENTDIR=`pwd`
@@ -9,42 +13,50 @@ MAINFILE="$PLUGINSLUG.php" # this should be the name of your main php file in th
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
 
 # svn config
-SVNPATH="$CURRENTDIR/deploy" # path to a temp SVN repo. No trailing slash required and don't add trunk.
+SVNPATH="$CURRENTDIR/wpdeploy" # path to a temp SVN repo. No trailing slash required and don't add trunk.
 SVNURL="http://plugins.svn.wordpress.org/$PLUGINSLUG/" # Remote SVN repo on WordPress.org, with no trailing slash
 SVNUSER="SMSGlobal" # your svn username
 # SVNPASSWORD comes from the environment variable unless you specify it here
+
+# Removing existing SVN directory
+rm -rf $SVNPATH
 
 NEWVERSION=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`
 echo "Version: $NEWVERSION"
 
 cd $GITPATH
-git commit -am "Updated to version $NEWVERSION"
 
-echo "Tagging new version in git"
-git tag -a "$NEWVERSION"
+if [ "$ENV" = "prod" ]
+then
+    git commit -am "Updated to version $NEWVERSION"
+    echo "Tagging new version in git"
+    git tag -a "$NEWVERSION" -m "Tagging version $NEWVERSION1"
 
-echo "Pushing latest commit to origin, with tags"
-git push origin master
-git push origin master --tags
+    echo "Pushing latest commit to origin, with tags"
+    git push origin master
+    git push origin master --tags
+fi
 
 echo
 echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
-# Remove files that shouldn't be in the plugin
-rm .gitignore
-rm .gitmodules
-rm deploy
-rm README.md
-rm -rf tests
-rm -rf wordpress-tests
-
 # Export git -> SVN
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
+echo "Ignoring github specific files and deployment script"
+svn propset svn:ignore "deploy
+README.md
+.git
+tests
+wordpress-tests
+.gitignore
+.gitmodules" "$SVNPATH/trunk/"
+
 # If submodule exist, recursively check out their indexes
-if [-f ".gitmodules"]; then
+if [ -f ".gitmodules" ]
+then
     echo "Exporting the HEAD of each submodule from git to the trunk of SVN"
     git submodule init
     git submodule update
@@ -55,13 +67,22 @@ echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-svn commit --username=$SVNUSER --password$SVNPASSWORD -m "$COMMITMSG"
+svn commit --username=$SVNUSER --password=$SVNPASSWORD -m "$COMMITMSG"
 
-echo "Creating new SVN tag & committing it"
-cd $SVNPATH
-svn copy trunk/ tags/$NEWVERSION/
-cd $SVNPATH/tags/$NEWVERSION
-svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION"
+if [ "$ENV" = "prod" ]
+then
+    echo "Creating new SVN tag & committing it"
+    cd $SVNPATH
+    if [[ ! -e tags/$NEWVERSION/ ]]
+    then
+        svn copy trunk/ tags/$NEWVERSION/
+        cd $SVNPATH/tags/$NEWVERSION
+        svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION"
+    else
+        echo "Tag exists for the version $NEWVERSION"
+        echo "Change stable version in Readme.txt file for release"
+    fi
+fi
 
 echo "Removing temporary directory $SVNPATH"
 rm -rf $SVNPATH/

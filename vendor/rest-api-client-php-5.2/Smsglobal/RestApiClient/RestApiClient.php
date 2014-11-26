@@ -269,6 +269,10 @@ class Smsglobal_RestApiClient_RestApiClient
      */
     protected function makeRequest($uri, $method = 'GET', $content = null, $returnResponse = false)
     {
+        if($this->apiKey->isSetPackage()) {
+            $uri .= '?package=' . (string) $this->apiKey->getPackage();
+        }
+
         $fullUri = sprintf('http%s://%s%s', $this->useSsl ? 's' : '', $this->host, $uri);
         $request = new Smsglobal_RestApiClient_Http_Request($fullUri);
         $request->headers->set('Accept', 'application/json');

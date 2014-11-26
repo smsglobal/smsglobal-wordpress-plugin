@@ -5,9 +5,9 @@ class Smsglobal_Subscription_Widget extends WP_Widget
     {
         parent::__construct(
             'smsglobal_subscription_widget',
-            Smsglobal_Utils::_('SMSGlobal Widget'),
+            __('SMSGlobal Widget', SMSGLOBAL_TEXT_DOMAIN),
             array(
-                'description' => Smsglobal_Utils::_('Display subscription input box so user can enter their mobile number to receive notification SMS.')
+                'description' => __('Display subscription input box so user can enter their mobile number to receive notification SMS.', SMSGLOBAL_TEXT_DOMAIN)
             )
         );
 
@@ -29,38 +29,37 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             $code_label = esc_attr($instance['code_label']);
             $submit_text = esc_attr($instance['submit_text']);
             $verify_text = esc_attr($instance['verify_text']);
-
         } else {
-            $form_title = Smsglobal_Utils::_('SMS Subscription');
-            $name_label = Smsglobal_Utils::_('Name');
-            $mobile_label = Smsglobal_Utils::_('Mobile');
-            $code_label = Smsglobal_Utils::_('Code');
-            $submit_text = Smsglobal_Utils::_('Subscribe');
-            $verify_text = Smsglobal_Utils::_('Verify');
+            $form_title = __('SMS Subscription', SMSGLOBAL_TEXT_DOMAIN);
+            $name_label = __('Name', SMSGLOBAL_TEXT_DOMAIN);
+            $mobile_label = __('Mobile', SMSGLOBAL_TEXT_DOMAIN);
+            $code_label = __('Code', SMSGLOBAL_TEXT_DOMAIN);
+            $submit_text = __('Subscribe', SMSGLOBAL_TEXT_DOMAIN);
+            $verify_text = __('Verify', SMSGLOBAL_TEXT_DOMAIN);
         }
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('form_title') ?>"><?php echo Smsglobal_Utils::_('Subscription Form Title:') ?></label>
+            <label for="<?php echo $this->get_field_id('form_title') ?>"><?php _e('Subscription Form Title:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('form_title') ?>" name="<?php echo $this->get_field_name('form_title') ?>" type="text" value="<?php echo $form_title ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('name_label') ?>"><?php echo Smsglobal_Utils::_('Name Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('name_label') ?>"><?php _e('Name Label:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('name_label') ?>" name="<?php echo $this->get_field_name('name_label') ?>" type="text" value="<?php echo $name_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('mobile_label') ?>"><?php echo Smsglobal_Utils::_('Mobile Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('mobile_label') ?>"><?php _e('Mobile Label:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('mobile_label') ?>" name="<?php echo $this->get_field_name('mobile_label') ?>" type="text" value="<?php echo $mobile_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('code_label') ?>"><?php echo Smsglobal_Utils::_('Verifying Code Label:') ?></label>
+            <label for="<?php echo $this->get_field_id('code_label') ?>"><?php _e('Verifying Code Label:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('code_label') ?>" name="<?php echo $this->get_field_name('code_label') ?>" type="text" value="<?php echo $code_label ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('submit_text') ?>"><?php echo Smsglobal_Utils::_('Submit Text:') ?></label>
+            <label for="<?php echo $this->get_field_id('submit_text') ?>"><?php _e('Submit Text:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('submit_text') ?>" name="<?php echo $this->get_field_name('submit_text') ?>" type="text" value="<?php echo $submit_text ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('verify_text') ?>"><?php echo Smsglobal_Utils::_('Verify Button Text:') ?></label>
+            <label for="<?php echo $this->get_field_id('verify_text') ?>"><?php _e('Verify Button Text:', SMSGLOBAL_TEXT_DOMAIN) ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('verify_text') ?>" name="<?php echo $this->get_field_name('verify_text') ?>" type="text" value="<?php echo $verify_text ?>" />
         </p>
         <?php
@@ -80,7 +79,6 @@ class Smsglobal_Subscription_Widget extends WP_Widget
 
     function widget($args, $instance)
     {
-
         echo $args['before_widget'];
         if (!empty($instance['form_title'])) {
             echo $args['before_title'];
@@ -102,11 +100,11 @@ class Smsglobal_Subscription_Widget extends WP_Widget
             <input class="widefat" id="mobile" name="mobile" type="text" value="" />
         </div>
         <div>
-            <input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
+            <br><input id="subscription_submit" name="subscription_submit" type="submit" value="<?php echo $instance['submit_text'];?>"/>
         </div>
         </form>
         <br/>
-        <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php">
+        <form class="" id="subscription_verification_form" method="POST" action="<?php echo $action_url; ?>/subscriptionVerification.php" style="display: none;">
             <div>
                 <label for="name"><?php if ( ! empty( $instance['mobile_label'] ) ) echo $instance['mobile_label']; ?></label>
                 <input class="widefat" id="mobile_verify" name="mobile" type="text" value="" />
@@ -116,7 +114,7 @@ class Smsglobal_Subscription_Widget extends WP_Widget
                 <input class="widefat" id="code" name="code" type="text" value="" />
             </div>
             <div>
-                <input id="subscription_verification_submit" name="subscription_verification_submit" type="submit" value="<?php echo $instance['verify_text'];?>"/>
+                <br><input id="subscription_verification_submit" name="subscription_verification_submit" type="submit" value="<?php echo $instance['verify_text'];?>"/>
             </div>
         </form>
     </div>
@@ -132,6 +130,16 @@ function smsglobal_add_javascript_files()
         $assets_url = plugin_dir_url(__FILE__).'../assets';
         wp_enqueue_style( 'smsglobal', $assets_url."/smsglobal.css");
         wp_enqueue_script( 'smsglobal', $assets_url."/smsglobal.js",  array('jquery'));
+
+        wp_localize_script( 'smsglobal', 'smsglobalL10n', array(
+            'fullname' => __('Please enter your full name.', SMSGLOBAL_TEXT_DOMAIN),
+            'mobilenumber' => __('Please enter your mobile number.', SMSGLOBAL_TEXT_DOMAIN),
+            'verificationcode' => __('Please enter the verification code.', SMSGLOBAL_TEXT_DOMAIN),
+            'verificationmobile' => __('Please enter your mobile for verification purpose.', SMSGLOBAL_TEXT_DOMAIN),
+            'sending' => __('Sending...', SMSGLOBAL_TEXT_DOMAIN),
+            'requestproblem' => __('There was a problem with the request.', SMSGLOBAL_TEXT_DOMAIN),
+        ) );
+
     }
 }
 
@@ -142,4 +150,28 @@ function smsglobal_register_widgets()
     register_widget('Smsglobal_Subscription_Widget');
 }
 
+function show_subscription_widget()
+{
+    $args = array(
+        'before_widget' => '<div class="box widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<div style="font-size:14px;font-weight:700;line-height:1.7;margin:0 0 24px;text-transform:uppercase">',
+        'after_title'   => '</div>',
+    );
+
+    $instance['form_title'] = __('SMS Subscription', SMSGLOBAL_TEXT_DOMAIN);
+    $instance['name_label'] = __('Name', SMSGLOBAL_TEXT_DOMAIN);
+    $instance['mobile_label'] = __('Mobile', SMSGLOBAL_TEXT_DOMAIN);
+    $instance['code_label'] = __('Code', SMSGLOBAL_TEXT_DOMAIN);
+    $instance['submit_text'] = __('Subscribe', SMSGLOBAL_TEXT_DOMAIN);
+    $instance['verify_text'] = __('Verify', SMSGLOBAL_TEXT_DOMAIN);
+
+    ob_start();
+    the_widget('Smsglobal_Subscription_Widget', $instance, $args );
+    $output = ob_get_clean();
+
+    return $output;
+}
+
 add_action('widgets_init', 'smsglobal_register_widgets');
+add_shortcode('smsglobal', 'show_subscription_widget');

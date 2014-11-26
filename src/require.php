@@ -12,6 +12,11 @@ $smsglobal_files = array(
     'SmsPage.php',
     'Widget.php',
     'UserList.php',
+    'Settings/ApiKeys.php',
+    'Settings/Authentication.php',
+    'Settings/PostAlert.php',
+    'Settings/WPecommerce.php',
+    'Settings/Shopp.php'
 );
 
 // For PHP < 5.3, we can't use __DIR__

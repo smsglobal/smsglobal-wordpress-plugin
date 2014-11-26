@@ -10,8 +10,8 @@ class Smsglobal_ListPage
 
     public function addMenu()
     {
-        $title = Smsglobal_Utils::_('Subscribers');
-        $browser_header = Smsglobal_Utils::_('SMSGlobal Subscribers');
+        $title = __('Subscribers', SMSGLOBAL_TEXT_DOMAIN);
+        $browser_header = __('SMSGlobal Subscribers', SMSGLOBAL_TEXT_DOMAIN);
         add_submenu_page('smsglobal', $browser_header, $title, 'manage_options', 'smsglobal_subscribers', array($this, 'getPage'));
     }
 
@@ -21,8 +21,7 @@ class Smsglobal_ListPage
         $mediaUrl = plugin_dir_url(__FILE__).'../assets';
         ?>
         <div class="wrap">
-            <?php screen_icon() ?>
-            <h2><?php echo Smsglobal_Utils::_('SMS Subscribers') ?></h2>
+            <h2><?php _e('SMS Subscribers', SMSGLOBAL_TEXT_DOMAIN) ?></h2>
             <div>&nbsp;</div>
         <?PHP
         if ($subscribers):
@@ -39,7 +38,7 @@ class Smsglobal_ListPage
 <!--                    </select>-->
 <!--                    <input type="submit" name="" id="doaction" class="button action" value="Apply">-->
 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo count($subscribers); ?> subscribers</span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php printf(__('%d subscribers', SMSGLOBAL_TEXT_DOMAIN), count($subscribers)); ?></span>
 <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
 <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
 <!--<span class="paging-input"><input class="current-page" title="Current page" type="text" name="paged" value="1" size="1"> of <span class="total-pages">1</span></span>-->
@@ -51,10 +50,10 @@ class Smsglobal_ListPage
         <table class="wp-list-table widefat plugins">
             <thead>
             <tr valign="top">
-                <th scope="row"><?php echo Smsglobal_Utils::_('Name') ?></th>
-                <th scope="row"><?php echo Smsglobal_Utils::_('Mobile') ?></th>
-                <th scope="row"><?php echo Smsglobal_Utils::_('Email') ?></th>
-                <th scope="row"><?php echo Smsglobal_Utils::_('Verified') ?></th>
+                <th scope="row"><?php _e('Name', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                <th scope="row"><?php _e('Mobile', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                <th scope="row"><?php _e('Email', SMSGLOBAL_TEXT_DOMAIN) ?></th>
+                <th scope="row"><?php _e('Verified', SMSGLOBAL_TEXT_DOMAIN) ?></th>
             </tr>
             </thead>
             <?php foreach ($subscribers as $subscriber): ?>
@@ -78,7 +77,7 @@ class Smsglobal_ListPage
 <!--                    </select>-->
 <!--                    <input type="submit" name="" id="doaction2" class="button action" value="Apply">-->
 <!--                </div>-->
-                <div class="tablenav-pages one-page"><span class="displaying-num"><?php echo count($subscribers); ?> subscribers</span>
+                <div class="tablenav-pages one-page"><span class="displaying-num"><?php printf(__('%d subscribers', SMSGLOBAL_TEXT_DOMAIN), count($subscribers)); ?></span>
 <!--<span class="pagination-links"><a class="first-page disabled" title="Go to the first page" href="http://wordpress.local/wp-admin/plugins.php">«</a>-->
 <!--<a class="prev-page disabled" title="Go to the previous page" href="http://wordpress.local/wp-admin/plugins.php?paged=1">‹</a>-->
 <!--<span class="paging-input">1 of <span class="total-pages">1</span></span>-->
@@ -90,7 +89,7 @@ class Smsglobal_ListPage
         <?php
         else:
         ?>
-            <div>You haven't had any subscriber via SMS yet.</div>
+            <div><?php _e('You haven\'t had any subscriber via SMS yet.', SMSGLOBAL_TEXT_DOMAIN); ?></div>
         <?php
         endif;
         ?>

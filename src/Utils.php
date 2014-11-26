@@ -14,7 +14,8 @@ class Smsglobal_Utils
         if (null === self::$restClient) {
             $apiKey = new Smsglobal_RestApiClient_ApiKey(
                 get_option('smsglobal_api_key'),
-                get_option('smsglobal_api_secret')
+                get_option('smsglobal_api_secret'),
+                'wordpress'
             );
 
             self::$restClient = new Smsglobal_RestApiClient_RestApiClient($apiKey);
@@ -34,7 +35,7 @@ class Smsglobal_Utils
             global $wp_roles;
 
             self::$roles = array(
-                'all' => self::_('All Users'),
+                'all' => __('All Users', SMSGLOBAL_TEXT_DOMAIN),
             );
 
             foreach ($wp_roles->roles as $id => $role) {
@@ -109,5 +110,14 @@ class Smsglobal_Utils
         $base64 = base64_encode($md5);
         return substr($base64, 2, 4);
 
+    }
+
+    public static function getPluginVersion($pluginFolderFile) {
+        if ( ! function_exists( 'get_plugin_data' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        }
+
+        $pluginData = get_plugin_data( WP_PLUGIN_DIR . '/' . $pluginFolderFile );
+        return $pluginData['Version'];
     }
 }

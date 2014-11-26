@@ -23,15 +23,25 @@ global $wp_styles;
 $wp_styles->done = array();
 
 login_header() ?>
+    <?php if(isset($error) && is_array($error) && $error['error'] == 1): ?>
+    <div id="login_error">
+        <strong><?php _e('ERROR', SMSGLOBAL_TEXT_DOMAIN); ?></strong>: <?php echo $error['error_msg']; ?>
+        <br><br>
+        <?php printf(
+            __('If you are not able to receive verification code or do not have access to your phone. You can override this feature by setting %s to false in your %s file.', SMSGLOBAL_TEXT_DOMAIN),
+            '<kbd>SMSGLOBAL_AUTH</kbd>',
+            'wp-config.php'); ?>
+    </div>
+    <?php endif; ?>
     <form name="loginform" id="loginform" action="<?php echo esc_url( admin_url() ); ?>" method="post">
-        <p><?php echo Smsglobal_Utils::_('An SMS has been sent to your phone for verification. Enter the code here to login.') ?></p>
+        <p><?php _e('An SMS has been sent to your phone for verification. Enter the code here to login.', SMSGLOBAL_TEXT_DOMAIN) ?></p>
         <p>
-            <label for="user_login"><?php echo Smsglobal_Utils::_('SMS Code') ?><br />
+            <label for="user_login"><?php _e('SMS Code', SMSGLOBAL_TEXT_DOMAIN) ?><br />
                 <input type="text" name="code" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
         </p>
         <p class="submit">
             <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
-            <a href="<?php echo wp_logout_url() ?>"><?php echo Smsglobal_Utils::_('Log out') ?></a>
+            <a href="<?php echo wp_logout_url() ?>"><?php _e('Log out', SMSGLOBAL_TEXT_DOMAIN) ?></a>
         </p>
     </form>
 <?php login_footer();
